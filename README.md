@@ -36,3 +36,4 @@ Extensions listed in `gnome/extensions.txt` must be installed from extensions.gn
 ## Workflow
 
 After tweaking GNOME: `./gnome/export.sh && git diff` then commit.
+After editing the shell theme CSS: `./gnome/reload-shell-theme.sh` (no logout needed).

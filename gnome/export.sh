@@ -17,4 +17,6 @@ SKIP='^(playback-history|app-picker-layout|command-history|css-updated|css-last-
 for name in "${!P[@]}"; do dconf dump "${P[$name]}" | { grep -Ev "$SKIP" || true; } > "$name.ini"; done
 # extensions installed in ~/.local (re-install from extensions.gnome.org on a new machine)
 ls -1 ~/.local/share/gnome-shell/extensions > ../extensions.txt
+# reload-shell-theme.sh may leave the alias name active; store the real one
+sed -i "s/^name='Mocha-Mac-reload'/name='Mocha-Mac'/" shell.ini
 echo "exported to $(pwd)"
