@@ -1,0 +1,411 @@
+/*
+ * Mocha-Mac — GNOME Shell 50 theme
+ * Default dark theme + Catppuccin Mocha palette + macOS-style finish.
+ *
+ * Palette (Catppuccin Mocha)
+ *   crust #11111b  mantle #181825  base #1e1e2e
+ *   surface0 #313244  surface1 #45475a  surface2 #585b70
+ *   overlay0 #6c7086  subtext0 #a6adc8  text #cdd6f4
+ *   mauve #cba6f7  lavender #b4befe  blue #89b4fa  red #f38ba8  green #a6e3a1
+ *
+ * Shared shapes: panel 14px, popups/banners 18px, quick settings 24px, dock 22px.
+ * Hairline borders are rgba(205,214,244,.08); shadows are soft and wide.
+ */
+
+@import url("resource:///org/gnome/shell/theme/gnome-shell-dark.css");
+
+stage {
+  color: #cdd6f4;
+}
+
+/* ───────────────────────── Top panel: floating pill ───────────────────────── */
+
+#panel {
+  margin: 6px 10px 0 10px;
+  height: 32px;
+  border-radius: 14px;
+  background-color: rgba(24, 24, 37, 0.78);
+  border: 1px solid rgba(205, 214, 244, 0.08);
+  box-shadow: 0 4px 16px rgba(17, 17, 27, 0.35);
+  font-weight: 600;
+}
+
+#panel .panel-button {
+  color: #cdd6f4;
+  border-radius: 10px;
+  border-width: 3px;
+  -natural-hpadding: 10px;
+}
+
+#panel .panel-button:hover,
+#panel .panel-button:focus {
+  box-shadow: inset 0 0 0 100px rgba(205, 214, 244, 0.08);
+}
+
+#panel .panel-button:active,
+#panel .panel-button:checked {
+  box-shadow: inset 0 0 0 100px rgba(205, 214, 244, 0.14);
+}
+
+#panel .panel-button#panelActivities .workspace-dot {
+  background-color: #cdd6f4;
+}
+
+/* Overview, lock and login: let the panel melt into the background */
+#panel:overview,
+#panel.unlock-screen,
+#panel.login-screen {
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* ───────────────────────── Popups & menus ───────────────────────── */
+
+.popup-menu-content,
+.candidate-popup-content {
+  background-color: rgba(30, 30, 46, 0.97);
+  border: 1px solid rgba(205, 214, 244, 0.08);
+  border-radius: 18px;
+  padding: 6px;
+  box-shadow: 0 10px 30px rgba(17, 17, 27, 0.45);
+  color: #cdd6f4;
+}
+
+.popup-menu-item {
+  border-radius: 10px;
+}
+
+.popup-menu-item:hover,
+.popup-menu-item:focus,
+.popup-menu-item:selected {
+  background-color: rgba(205, 214, 244, 0.08);
+}
+
+.popup-menu-item:checked,
+.popup-menu-item:active {
+  background-color: rgba(203, 166, 247, 0.18);
+}
+
+.popup-separator-menu-item .popup-separator-menu-item-separator {
+  background-color: rgba(205, 214, 244, 0.08);
+}
+
+/* ───────────────────────── Quick settings (control center) ───────────────────────── */
+
+/*
+ * Tiles are 16px rounded rectangles (macOS Control Center), not pills.
+ * Every rule is prefixed with .quick-settings so it outranks the default
+ * theme, which colors these with the system accent (-st-accent-color).
+ * Split toggles: the toggle owns the left corners, the arrow the right ones,
+ * so the two halves read as one tile.
+ */
+.quick-settings {
+  border-radius: 24px;
+  padding: 14px;
+}
+
+.quick-settings .quick-toggle,
+.quick-settings .quick-toggle-has-menu {
+  border-radius: 16px;
+}
+
+.quick-settings .quick-toggle-has-menu .quick-toggle:ltr {
+  border-radius: 16px 0 0 16px;
+}
+
+.quick-settings .quick-toggle-has-menu .quick-toggle:rtl {
+  border-radius: 0 16px 16px 0;
+}
+
+/* toggle without a visible arrow fills the whole tile */
+.quick-settings .quick-toggle-has-menu .quick-toggle:ltr:last-child,
+.quick-settings .quick-toggle-has-menu .quick-toggle:rtl:last-child {
+  border-radius: 16px;
+}
+
+.quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:ltr {
+  border-radius: 0 16px 16px 0;
+}
+
+.quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:rtl {
+  border-radius: 16px 0 0 16px;
+}
+
+/* off */
+.quick-settings .quick-toggle,
+.quick-settings .quick-toggle-has-menu .quick-toggle-menu-button {
+  color: #cdd6f4;
+  background-color: #313244;
+  box-shadow: none;
+}
+
+.quick-settings .quick-toggle:hover,
+.quick-settings .quick-toggle:focus,
+.quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:hover,
+.quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:focus {
+  color: #cdd6f4;
+  background-color: #3b3d52;
+}
+
+.quick-settings .quick-toggle:active,
+.quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:active {
+  background-color: #45475a;
+}
+
+/* on */
+.quick-settings .quick-toggle:checked,
+.quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:checked {
+  color: #1e1e2e;
+  background-color: #cba6f7;
+}
+
+.quick-settings .quick-toggle:checked:hover,
+.quick-settings .quick-toggle:checked:focus,
+.quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:checked:hover,
+.quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:checked:focus {
+  color: #1e1e2e;
+  background-color: #d4b6f9;
+}
+
+.quick-settings .quick-toggle:checked:active,
+.quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:checked:active {
+  background-color: #b99be6;
+}
+
+.quick-settings .quick-toggle .quick-toggle-subtitle {
+  color: inherit;
+}
+
+.quick-settings .quick-toggle-has-menu .quick-toggle-separator {
+  background-color: rgba(205, 214, 244, 0.08);
+}
+
+.quick-settings .quick-toggle-has-menu:checked .quick-toggle-separator {
+  background-color: rgba(30, 30, 46, 0.18);
+}
+
+.quick-toggle-menu {
+  background-color: #313244;
+  border-radius: 18px;
+}
+
+.quick-settings .icon-button,
+.quick-settings .button {
+  border-radius: 999px;
+}
+
+.slider {
+  -barlevel-height: 6px;
+  -barlevel-background-color: #45475a;
+  -barlevel-active-background-color: #cba6f7;
+  -barlevel-overdrive-color: #f38ba8;
+  -slider-handle-radius: 9px;
+  color: #cdd6f4;
+}
+
+.toggle-switch:checked {
+  background-color: #cba6f7;
+}
+
+/* ───────────────────────── Notifications (banner) ───────────────────────── */
+
+.notification-banner {
+  margin: 10px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(17, 17, 27, 0.45);
+}
+
+.message {
+  background-color: rgba(30, 30, 46, 0.96);
+  border: 1px solid rgba(205, 214, 244, 0.08);
+  border-radius: 18px;
+  padding: 8px;
+  color: #cdd6f4;
+}
+
+.message:hover,
+.message:focus {
+  background-color: rgba(49, 50, 68, 0.98);
+}
+
+.message:second-in-stack {
+  background-color: rgba(24, 24, 37, 0.96);
+}
+
+.message:lower-in-stack {
+  background-color: rgba(17, 17, 27, 0.96);
+}
+
+.message .message-header {
+  color: #a6adc8;
+}
+
+.message .message-header .message-close-button,
+.message .message-header .message-expand-button {
+  background-color: rgba(205, 214, 244, 0.08);
+  color: #cdd6f4;
+}
+
+.message .message-header .message-close-button:hover,
+.message .message-header .message-expand-button:hover {
+  background-color: rgba(205, 214, 244, 0.16);
+}
+
+.message .message-title {
+  color: #cdd6f4;
+}
+
+.message .message-body {
+  color: #bac2de;
+}
+
+.notification-button,
+.notification-buttons-bin .button {
+  border-radius: 12px;
+  background-color: rgba(205, 214, 244, 0.08);
+}
+
+.notification-button:hover,
+.notification-buttons-bin .button:hover {
+  background-color: rgba(205, 214, 244, 0.16);
+}
+
+/* ───────────────────────── Calendar / date menu ───────────────────────── */
+
+.datemenu-popover .calendar,
+.datemenu-popover .datemenu-today-button,
+.datemenu-popover .events-button,
+.datemenu-popover .world-clocks-button,
+.datemenu-popover .weather-button {
+  border-radius: 14px;
+  background-color: rgba(49, 50, 68, 0.6);
+}
+
+.datemenu-popover .calendar:hover,
+.datemenu-popover .datemenu-today-button:hover,
+.datemenu-popover .events-button:hover,
+.datemenu-popover .world-clocks-button:hover,
+.datemenu-popover .weather-button:hover {
+  background-color: rgba(69, 71, 90, 0.8);
+}
+
+.calendar-day:selected,
+.calendar-today:selected {
+  background-color: #cba6f7;
+  color: #1e1e2e;
+}
+
+.calendar-today {
+  color: #cba6f7;
+  font-weight: bold;
+}
+
+/* ───────────────────────── OSD, switcher, dialogs ───────────────────────── */
+
+.osd-window,
+.workspace-switcher-container,
+.resize-popup {
+  background-color: rgba(30, 30, 46, 0.92);
+  border: 1px solid rgba(205, 214, 244, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 10px 30px rgba(17, 17, 27, 0.45);
+  color: #cdd6f4;
+}
+
+.osd-window .level {
+  -barlevel-background-color: #45475a;
+  -barlevel-active-background-color: #cba6f7;
+}
+
+.switcher-popup .switcher-list,
+.switcher-list {
+  background-color: rgba(30, 30, 46, 0.92);
+  border: 1px solid rgba(205, 214, 244, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(17, 17, 27, 0.45);
+}
+
+.switcher-list .item-box {
+  border-radius: 14px;
+}
+
+.switcher-list .item-box:selected {
+  background-color: rgba(203, 166, 247, 0.22);
+}
+
+.modal-dialog {
+  background-color: #1e1e2e;
+  border: 1px solid rgba(205, 214, 244, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 16px 40px rgba(17, 17, 27, 0.5);
+  color: #cdd6f4;
+}
+
+.modal-dialog .modal-dialog-button-box .modal-dialog-button {
+  border-radius: 12px;
+  background-color: #313244;
+}
+
+.modal-dialog .modal-dialog-button-box .modal-dialog-button:hover {
+  background-color: #45475a;
+}
+
+.modal-dialog .modal-dialog-button-box .modal-dialog-button.default {
+  background-color: #cba6f7;
+  color: #1e1e2e;
+}
+
+/* ───────────────────────── Overview / search ───────────────────────── */
+
+.search-entry {
+  border-radius: 999px;
+  background-color: rgba(49, 50, 68, 0.75);
+  border: 1px solid rgba(205, 214, 244, 0.08);
+  color: #cdd6f4;
+}
+
+.search-entry:focus {
+  border-color: rgba(203, 166, 247, 0.6);
+}
+
+.search-section-content {
+  border-radius: 22px;
+  background-color: rgba(30, 30, 46, 0.7);
+}
+
+.app-folder-dialog {
+  border-radius: 28px;
+  background-color: rgba(30, 30, 46, 0.92);
+}
+
+.workspace-background {
+  border-radius: 18px;
+}
+
+/* ───────────────────────── Dock (Dash to Dock) ───────────────────────── */
+
+/* Radius must match the blur-my-shell "dash" pipeline corner radius (22). */
+#dashtodockContainer #dash .dash-background,
+#dash .dash-background {
+  border-radius: 22px;
+  border: 1px solid rgba(205, 214, 244, 0.08);
+}
+
+#dashtodockContainer .dash-item-container .app-well-app .overview-icon,
+#dashtodockContainer .show-apps .overview-icon {
+  border-radius: 14px;
+}
+
+#dashtodockContainer .app-well-app-running-dot,
+#dashtodockContainer .app-grid-running-dot {
+  background-color: #cdd6f4;
+}
+
+/* ───────────────────────── Text selection & entries ───────────────────────── */
+
+StEntry {
+  selection-background-color: rgba(203, 166, 247, 0.35);
+  selected-color: #cdd6f4;
+  caret-color: #cba6f7;
+}

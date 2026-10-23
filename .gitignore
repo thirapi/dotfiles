@@ -1,3 +1,2 @@
-# machine-local secrets never go here (~/.zshrc.local stays out of the repo)
-*.local
+# machine-local env/secrets live in ~/.zshrc.local and never enter the repo
 .zshrc.local
