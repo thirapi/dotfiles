@@ -1,1 +1,45 @@
-../gtk-4.0/gtk.css
+/*
+ * GTK3 / adw-gtk3: Catppuccin Mocha palette + macOS traffic-light window buttons.
+ */
+
+@import url("../gtk-4.0/colors.css");
+
+/* ───── Traffic lights ─────
+ * In GTK3 the button itself is the dot. Its 16px icon is pulled in by a
+ * negative margin so the dot comes out at 14px, matching GTK4. Glyphs show
+ * only while the pointer is over the header bar's button box.
+ */
+button.titlebutton:not(.appmenu),
+headerbar.default-decoration button.titlebutton,
+.default-decoration.titlebar:not(headerbar) button.titlebutton {
+  min-width: 14px;
+  min-height: 14px;
+  margin: 0 4px;
+  padding: 0;
+  border-radius: 100%;
+  background-image: none;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
+  color: transparent;
+  -gtk-icon-shadow: none;
+}
+
+button.titlebutton:not(.appmenu) image {
+  margin: -1px;
+  -gtk-icon-transform: scale(0.6);
+}
+
+button.titlebutton.close { background-color: #ff5f57; }
+button.titlebutton.minimize { background-color: #febc2e; }
+button.titlebutton.maximize { background-color: #28c840; }
+
+headerbar box:hover > button.titlebutton:not(.appmenu),
+.titlebar box:hover > button.titlebutton:not(.appmenu) { color: rgba(0, 0, 0, 0.6); }
+
+button.titlebutton.close:active { background-color: #d94c45; }
+button.titlebutton.minimize:active { background-color: #d9a027; }
+button.titlebutton.maximize:active { background-color: #22a836; }
+
+button.titlebutton:not(.appmenu):backdrop { background-color: #45475a; }
+box:hover > button.titlebutton.close:backdrop { background-color: #ff5f57; }
+box:hover > button.titlebutton.minimize:backdrop { background-color: #febc2e; }
+box:hover > button.titlebutton.maximize:backdrop { background-color: #28c840; }

@@ -10,7 +10,7 @@
  *   lavender #b4befe  mauve #cba6f7  blue #89b4fa  red #f38ba8  green #a6e3a1
  *
  * Spacing unit 6px: panel margin = Forge window gap (edges 6px, between 12px).
- * Shared shapes: windows 15px (libadwaita), top-bar islands full pill, popups/banners 18px, quick settings 24px, dock 22px.
+ * Shared shapes: windows 15px (libadwaita), top-bar islands full pill, popups/notification cards 18px, quick settings 24px, dock 22px.
  * Hairline borders are rgba(205,214,244,.08). Keep outer shadows tiny (0 2px 4px):
  * the shell clips them to the square actor bounds, which shows up as a
  * square box behind rounded corners.
@@ -44,6 +44,22 @@ stage {
   border: 1px solid rgba(205, 214, 244, 0.10);
   border-radius: 999px;
   padding: 0 3px;
+}
+
+/* Solid bar: while a window is maximized, mac-top-bar@thirapi adds .solid and
+ * the side islands melt into one full-width bar in the GTK header bar colour
+ * (mantle), so bar and window read as one surface. 32px + 3px + 3px keeps the
+ * panel at the islands' 38px, so the work area never moves. */
+#panel.solid {
+  margin: 0;
+  padding: 3px 6px;
+  background-color: #181825;
+}
+
+#panel.solid #panelLeft,
+#panel.solid #panelRight {
+  background-color: transparent;
+  border-color: transparent;
 }
 
 /* Clock island carries the accent */
@@ -265,61 +281,138 @@ stage {
   background-color: #e9684e;
 }
 
-/* ───────────────────────── Notifications (banner) ───────────────────────── */
+/* ───────────────────────── Notifications ─────────────────────────
+ * macOS Notification Center look: a narrow card, a big icon beside a bold
+ * title, a quiet caption line (app + time), and close / expand buttons that
+ * only appear while the card is hovered. Shell popups can't blur here (Blur my
+ * Shell popup blur stays off), so cards are just a hair translucent instead.
+ */
 
 .notification-banner {
+  width: 25em;
   margin: 10px;
   border-radius: 18px;
   box-shadow: 0 2px 4px rgba(17, 17, 27, 0.3);
 }
 
 .message {
-  background-color: #1e1e2e;
+  background-color: rgba(30, 30, 46, 0.94);
   border: 1px solid rgba(205, 214, 244, 0.08);
   border-radius: 18px;
-  padding: 8px;
+  padding: 10px;
   color: #cdd6f4;
 }
 
 .message:hover,
 .message:focus {
-  background-color: #313244;
+  background-color: rgba(49, 50, 68, 0.96);
 }
 
 .message:second-in-stack {
-  background-color: #181825;
+  background-color: rgba(24, 24, 37, 0.94);
 }
 
 .message:lower-in-stack {
-  background-color: rgba(17, 17, 27, 0.96);
+  background-color: rgba(17, 17, 27, 0.92);
 }
 
+/* Caption line: small dim app name and time */
 .message .message-header {
   color: #a6adc8;
+  font-size: 0.85em;
 }
 
+.message .message-header .message-source-icon {
+  icon-size: 12px;
+}
+
+.message .message-header .message-header-content {
+  min-height: 0;
+  padding-bottom: 2px;
+}
+
+.message .message-header .message-header-content .message-source-title {
+  font-weight: 600;
+}
+
+.message .message-header .message-header-content .event-time {
+  color: #7f849c;
+}
+
+/* Close / expand: small round buttons, invisible until the card is hovered */
 .message .message-header .message-close-button,
 .message .message-header .message-expand-button {
-  background-color: rgba(205, 214, 244, 0.08);
+  margin: 0 0 0 4px;
+  padding: 4px;
+  /* the stock icon-button min-height would stretch the dot into an oval */
+  min-height: 0;
+  background-color: transparent;
+  color: transparent;
+}
+
+.message .message-header .message-close-button StIcon,
+.message .message-header .message-expand-button StIcon {
+  icon-size: 10px;
+}
+
+.message:hover .message-header .message-close-button,
+.message:hover .message-header .message-expand-button,
+.message:focus .message-header .message-close-button,
+.message:focus .message-header .message-expand-button {
+  background-color: rgba(205, 214, 244, 0.10);
   color: #cdd6f4;
 }
 
-.message .message-header .message-close-button:hover,
-.message .message-header .message-expand-button:hover {
-  background-color: rgba(205, 214, 244, 0.16);
+.message:hover .message-header .message-close-button:hover,
+.message:hover .message-header .message-expand-button:hover {
+  background-color: rgba(205, 214, 244, 0.20);
+}
+
+/* Body: icon on the left, bold title, softer text */
+.message .message-box {
+  padding: 4px 2px 2px 2px;
+  spacing: 10px;
+}
+
+.message .message-box:first-child {
+  margin-top: 4px;
+}
+
+.message .message-box .message-icon {
+  icon-size: 36px;
+}
+
+.message .message-box .message-icon.message-themed-icon {
+  min-width: 36px;
+  min-height: 36px;
+  icon-size: 18px;
+  border-radius: 10px;
+  background-color: rgba(205, 214, 244, 0.08);
+}
+
+.message .message-box .message-content {
+  spacing: 2px;
 }
 
 .message .message-title {
   color: #cdd6f4;
+  font-weight: bold;
 }
 
 .message .message-body {
   color: #bac2de;
 }
 
+/* Action buttons */
+.message .message-action-bin {
+  padding: 6px 2px 2px 2px;
+}
+
 .notification-button,
 .notification-buttons-bin .button {
-  border-radius: 12px;
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-weight: 600;
   background-color: rgba(205, 214, 244, 0.08);
 }
 

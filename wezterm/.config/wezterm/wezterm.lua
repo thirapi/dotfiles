@@ -21,6 +21,10 @@ config.window_padding = {
   bottom = 10,
 }
 config.window_decorations = "RESIZE" -- Menghilangkan titlebar agar lebih sleek
+-- WezTerm 20240203 melaporkan geometri jendela yang salah di Wayland, sehingga
+-- Rounded Window Corners memasang sudut di luar area jendela (terlihat kotak).
+-- Lewat XWayland geometrinya benar; aman karena skala layar 1.0.
+config.enable_wayland = false
 
 -- 4. Tab Bar Minimalis
 config.use_fancy_tab_bar = false

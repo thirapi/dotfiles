@@ -1,0 +1,9 @@
+{
+  "name": "Mac Top Bar",
+  "description": "macOS menu bar behaviour for an island top bar: push the pointer against the top edge to slide the bar down over a fullscreen window, and merge the islands into one solid bar while a window is maximized (the theme styles #panel.solid).",
+  "uuid": "mac-top-bar@thirapi",
+  "shell-version": [
+    "50"
+  ],
+  "url": "https://github.com/thirapi/dotfiles"
+}

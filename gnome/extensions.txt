@@ -4,6 +4,7 @@ dynamic-music-pill@andbal
 forge@jmmaranan.com
 gnome-ui-tune@itstime.tech
 just-perfection-desktop@just-perfection
+mac-top-bar@thirapi
 netspeedsimplified@prateekmedia.extension
 ResourceBuzzLite@hridoybuzz.dev
 rounded-window-corners@fxgn

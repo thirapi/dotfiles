@@ -10,9 +10,10 @@ Managed with [GNU Stow](https://www.gnu.org/software/stow/). Each top-level fold
 | kitty      | `.config/kitty`                                           |
 | wezterm    | `.config/wezterm`                                         |
 | fastfetch  | `.config/fastfetch`, `.config/ascii-art`                  |
-| gtk        | `.config/gtk-{3,4}.0/{settings.ini,gtk.css}` (Mocha colors)|
+| gtk        | `.config/gtk-{3,4}.0/{settings.ini,gtk.css}`, `.config/gtk-4.0/colors.css` (Mocha palette shared by both, macOS traffic-light buttons) |
 | shell-theme| `.local/share/themes/Mocha-Mac` (GNOME Shell theme)   |
 | wallpapers | `.local/share/backgrounds`                                |
+| shell-extensions | `.local/share/gnome-shell/extensions/mac-top-bar@thirapi` (top bar slides down over fullscreen windows when the pointer pushes the top edge; islands merge into a solid bar while a window is maximized) |
 | gnome      | *not stowed* — dconf dumps + extension list               |
 
 ## Install
@@ -20,7 +21,7 @@ Managed with [GNU Stow](https://www.gnu.org/software/stow/). Each top-level fold
 ```sh
 sudo apt install stow git zsh kitty fastfetch
 git clone <repo> ~/dotfiles && cd ~/dotfiles
-stow -t ~ zsh tmux git kitty wezterm fastfetch gtk wallpapers shell-theme
+stow -t ~ zsh tmux git kitty wezterm fastfetch gtk wallpapers shell-theme shell-extensions
 ./gnome/import.sh          # look & feel, extension settings, keybindings
 ```
 
