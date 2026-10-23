@@ -6,7 +6,8 @@
  *   crust #11111b  mantle #181825  base #1e1e2e
  *   surface0 #313244  surface1 #45475a  surface2 #585b70
  *   overlay0 #6c7086  subtext0 #a6adc8  text #cdd6f4
- *   lavender #b4befe (accent)  mauve #cba6f7  blue #89b4fa  red #f38ba8  green #a6e3a1
+ *   ember #e9684e (accent, sampled from the wallpaper; hover #ef8169, active #d4553c)
+ *   lavender #b4befe  mauve #cba6f7  blue #89b4fa  red #f38ba8  green #a6e3a1
  *
  * Spacing unit 6px: panel margin = Forge window gap (edges 6px, between 12px).
  * Shared shapes: windows 15px (libadwaita), top-bar islands full pill, popups/banners 18px, quick settings 24px, dock 22px.
@@ -47,8 +48,8 @@ stage {
 
 /* Clock island carries the accent */
 #panel #panelCenter {
-  background-color: #b4befe;
-  border-color: #b4befe;
+  background-color: #e9684e;
+  border-color: #e9684e;
 }
 
 #panel .panel-button,
@@ -140,7 +141,7 @@ stage {
 
 .popup-menu-item:checked,
 .popup-menu-item:active {
-  background-color: rgba(180, 190, 254, 0.18);
+  background-color: rgba(233, 104, 78, 0.18);
 }
 
 .popup-separator-menu-item .popup-separator-menu-item-separator {
@@ -213,7 +214,7 @@ stage {
 .quick-settings .quick-toggle:checked,
 .quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:checked {
   color: #1e1e2e;
-  background-color: #b4befe;
+  background-color: #e9684e;
 }
 
 .quick-settings .quick-toggle:checked:hover,
@@ -221,12 +222,12 @@ stage {
 .quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:checked:hover,
 .quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:checked:focus {
   color: #1e1e2e;
-  background-color: #c6cdfe;
+  background-color: #ef8169;
 }
 
 .quick-settings .quick-toggle:checked:active,
 .quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:checked:active {
-  background-color: #9fa9f0;
+  background-color: #d4553c;
 }
 
 .quick-settings .quick-toggle .quick-toggle-subtitle {
@@ -254,14 +255,14 @@ stage {
 .slider {
   -barlevel-height: 6px;
   -barlevel-background-color: #45475a;
-  -barlevel-active-background-color: #b4befe;
+  -barlevel-active-background-color: #e9684e;
   -barlevel-overdrive-color: #f38ba8;
   -slider-handle-radius: 9px;
   color: #cdd6f4;
 }
 
 .toggle-switch:checked {
-  background-color: #b4befe;
+  background-color: #e9684e;
 }
 
 /* ───────────────────────── Notifications (banner) ───────────────────────── */
@@ -348,12 +349,12 @@ stage {
 
 .calendar-day:selected,
 .calendar-today:selected {
-  background-color: #b4befe;
+  background-color: #e9684e;
   color: #1e1e2e;
 }
 
 .calendar-today {
-  color: #b4befe;
+  color: #e9684e;
   font-weight: bold;
 }
 
@@ -371,7 +372,7 @@ stage {
 
 .osd-window .level {
   -barlevel-background-color: #45475a;
-  -barlevel-active-background-color: #b4befe;
+  -barlevel-active-background-color: #e9684e;
 }
 
 .switcher-popup .switcher-list,
@@ -387,7 +388,7 @@ stage {
 }
 
 .switcher-list .item-box:selected {
-  background-color: rgba(180, 190, 254, 0.22);
+  background-color: rgba(233, 104, 78, 0.22);
 }
 
 .modal-dialog {
@@ -408,7 +409,7 @@ stage {
 }
 
 .modal-dialog .modal-dialog-button-box .modal-dialog-button.default {
-  background-color: #b4befe;
+  background-color: #e9684e;
   color: #1e1e2e;
 }
 
@@ -422,7 +423,7 @@ stage {
 }
 
 .search-entry:focus {
-  border-color: rgba(180, 190, 254, 0.6);
+  border-color: rgba(233, 104, 78, 0.6);
 }
 
 .search-section-content {
@@ -461,7 +462,7 @@ stage {
 /* ───────────────────────── Text selection & entries ───────────────────────── */
 
 StEntry {
-  selection-background-color: rgba(180, 190, 254, 0.35);
+  selection-background-color: rgba(233, 104, 78, 0.35);
   selected-color: #cdd6f4;
-  caret-color: #b4befe;
+  caret-color: #e9684e;
 }
