@@ -7,5 +7,6 @@ just-perfection-desktop@just-perfection
 netspeedsimplified@prateekmedia.extension
 ResourceBuzzLite@hridoybuzz.dev
 rounded-window-corners@fxgn
+space-bar@luchrioh
 spotify-ad-block@danigm.net
 user-theme@gnome-shell-extensions.gcampax.github.com

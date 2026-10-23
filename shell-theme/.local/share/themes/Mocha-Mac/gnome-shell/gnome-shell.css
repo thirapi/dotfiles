@@ -9,7 +9,7 @@
  *   lavender #b4befe (accent)  mauve #cba6f7  blue #89b4fa  red #f38ba8  green #a6e3a1
  *
  * Spacing unit 6px: panel margin = Forge window gap (edges 6px, between 12px).
- * Shared shapes: panel 15px (= libadwaita windows), popups/banners 18px, quick settings 24px, dock 22px.
+ * Shared shapes: windows 15px (libadwaita), top-bar blocks 8px, popups/banners 18px, quick settings 24px, dock 22px.
  * Hairline borders are rgba(205,214,244,.08). Keep outer shadows tiny (0 2px 4px):
  * the shell clips them to the square actor bounds, which shows up as a
  * square box behind rounded corners.
@@ -21,45 +21,88 @@ stage {
   color: #cdd6f4;
 }
 
-/* ───────────────────────── Top panel: floating pill ───────────────────────── */
+/* ───────────────────────── Top bar: segmented blocks (sketchybar-style) ─────────────────────────
+ * The bar itself is invisible; every panel button is its own small block.
+ * Block radius 8px; Space Bar workspace labels inside use 5px (8 - 3px padding).
+ */
 
 #panel {
   margin: 6px 6px 0 6px;
   height: 32px;
-  border-radius: 15px;
-  background-color: #181825;
-  border: 1px solid rgba(205, 214, 244, 0.08);
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
   font-weight: 600;
 }
 
-#panel .panel-button {
+#panel .panel-button,
+#panel:overview .panel-button {
+  margin: 4px 2px;
+  border: 1px solid rgba(205, 214, 244, 0.10);
+  border-radius: 8px;
+  background-color: #1e1e2e;
   color: #cdd6f4;
-  border-radius: 15px;
-  border-width: 3px;
+  box-shadow: none;
   -natural-hpadding: 10px;
+  -minimum-hpadding: 6px;
 }
 
 #panel .panel-button:hover,
-#panel .panel-button:focus {
-  box-shadow: inset 0 0 0 100px rgba(205, 214, 244, 0.08);
+#panel .panel-button:focus,
+#panel:overview .panel-button:hover,
+#panel:overview .panel-button:focus {
+  background-color: #313244;
+  box-shadow: none;
 }
 
 #panel .panel-button:active,
-#panel .panel-button:checked {
-  box-shadow: inset 0 0 0 100px rgba(205, 214, 244, 0.14);
+#panel .panel-button:checked,
+#panel:overview .panel-button:active,
+#panel:overview .panel-button:checked {
+  background-color: #313244;
+  border-color: rgba(180, 190, 254, 0.55);
+  box-shadow: none;
+}
+
+/* Clock: the one filled block */
+#panel .panel-button.clock-display,
+#panel:overview .panel-button.clock-display {
+  background-color: #b4befe;
+  border-color: #b4befe;
+  color: #1e1e2e;
+}
+
+#panel .panel-button.clock-display:hover,
+#panel .panel-button.clock-display:checked,
+#panel:overview .panel-button.clock-display:hover,
+#panel:overview .panel-button.clock-display:checked {
+  background-color: #c6cdfe;
+  border-color: #c6cdfe;
+  color: #1e1e2e;
+}
+
+#panel .panel-button.clock-display .clock,
+#panel:overview .panel-button.clock-display .clock {
+  color: #1e1e2e;
+  box-shadow: none;
+  background-color: transparent;
 }
 
 #panel .panel-button#panelActivities .workspace-dot {
   background-color: #cdd6f4;
 }
 
-/* Overview, lock and login: let the panel melt into the background */
-#panel:overview,
-#panel.unlock-screen,
-#panel.login-screen {
+/* Workspace numbers block (Space Bar): tighter padding around the labels */
+#panel .panel-button.space-bar {
+  -natural-hpadding: 3px;
+  -minimum-hpadding: 3px;
+}
+
+/* Lock and login screens keep the stock, chrome-less panel */
+#panel.unlock-screen .panel-button,
+#panel.login-screen .panel-button {
   background-color: transparent;
   border-color: transparent;
-  box-shadow: none;
 }
 
 /* ───────────────────────── Popups & menus ───────────────────────── */
