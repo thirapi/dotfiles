@@ -8,6 +8,7 @@
  *   overlay0 #6c7086  subtext0 #a6adc8  text #cdd6f4
  *   lavender #b4befe (accent)  mauve #cba6f7  blue #89b4fa  red #f38ba8  green #a6e3a1
  *
+ * Spacing unit 6px: panel margin = Forge window gap (edges 6px, between 12px).
  * Shared shapes: panel 15px (= libadwaita windows), popups/banners 18px, quick settings 24px, dock 22px.
  * Hairline borders are rgba(205,214,244,.08). Keep outer shadows tiny (0 2px 4px):
  * the shell clips them to the square actor bounds, which shows up as a
@@ -23,7 +24,7 @@ stage {
 /* ───────────────────────── Top panel: floating pill ───────────────────────── */
 
 #panel {
-  margin: 6px 10px 0 10px;
+  margin: 6px 6px 0 6px;
   height: 32px;
   border-radius: 15px;
   background-color: #181825;
