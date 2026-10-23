@@ -3,9 +3,9 @@
  * gtk-3.0/gtk.css is a symlink to this file, so both toolkits share one palette.
  */
 
-/* Accent: mauve */
-@define-color accent_color #cba6f7;
-@define-color accent_bg_color #cba6f7;
+/* Accent: lavender */
+@define-color accent_color #b4befe;
+@define-color accent_bg_color #b4befe;
 @define-color accent_fg_color #1e1e2e;
 
 /* Status */

@@ -6,7 +6,7 @@
  *   crust #11111b  mantle #181825  base #1e1e2e
  *   surface0 #313244  surface1 #45475a  surface2 #585b70
  *   overlay0 #6c7086  subtext0 #a6adc8  text #cdd6f4
- *   mauve #cba6f7  lavender #b4befe  blue #89b4fa  red #f38ba8  green #a6e3a1
+ *   lavender #b4befe (accent)  mauve #cba6f7  blue #89b4fa  red #f38ba8  green #a6e3a1
  *
  * Shared shapes: panel 14px, popups/banners 18px, quick settings 24px, dock 22px.
  * Hairline borders are rgba(205,214,244,.08). Keep outer shadows tiny (0 2px 4px):
@@ -26,7 +26,7 @@ stage {
   margin: 6px 10px 0 10px;
   height: 32px;
   border-radius: 14px;
-  background-color: rgba(24, 24, 37, 0.78);
+  background-color: #181825;
   border: 1px solid rgba(205, 214, 244, 0.08);
   font-weight: 600;
 }
@@ -65,7 +65,7 @@ stage {
 
 .popup-menu-content,
 .candidate-popup-content {
-  background-color: rgba(30, 30, 46, 0.97);
+  background-color: #1e1e2e;
   border: 1px solid rgba(205, 214, 244, 0.08);
   border-radius: 18px;
   padding: 6px;
@@ -85,7 +85,7 @@ stage {
 
 .popup-menu-item:checked,
 .popup-menu-item:active {
-  background-color: rgba(203, 166, 247, 0.18);
+  background-color: rgba(180, 190, 254, 0.18);
 }
 
 .popup-separator-menu-item .popup-separator-menu-item-separator {
@@ -158,7 +158,7 @@ stage {
 .quick-settings .quick-toggle:checked,
 .quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:checked {
   color: #1e1e2e;
-  background-color: #cba6f7;
+  background-color: #b4befe;
 }
 
 .quick-settings .quick-toggle:checked:hover,
@@ -166,12 +166,12 @@ stage {
 .quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:checked:hover,
 .quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:checked:focus {
   color: #1e1e2e;
-  background-color: #d4b6f9;
+  background-color: #c6cdfe;
 }
 
 .quick-settings .quick-toggle:checked:active,
 .quick-settings .quick-toggle-has-menu .quick-toggle-menu-button:checked:active {
-  background-color: #b99be6;
+  background-color: #9fa9f0;
 }
 
 .quick-settings .quick-toggle .quick-toggle-subtitle {
@@ -199,14 +199,14 @@ stage {
 .slider {
   -barlevel-height: 6px;
   -barlevel-background-color: #45475a;
-  -barlevel-active-background-color: #cba6f7;
+  -barlevel-active-background-color: #b4befe;
   -barlevel-overdrive-color: #f38ba8;
   -slider-handle-radius: 9px;
   color: #cdd6f4;
 }
 
 .toggle-switch:checked {
-  background-color: #cba6f7;
+  background-color: #b4befe;
 }
 
 /* ───────────────────────── Notifications (banner) ───────────────────────── */
@@ -218,7 +218,7 @@ stage {
 }
 
 .message {
-  background-color: rgba(30, 30, 46, 0.96);
+  background-color: #1e1e2e;
   border: 1px solid rgba(205, 214, 244, 0.08);
   border-radius: 18px;
   padding: 8px;
@@ -227,11 +227,11 @@ stage {
 
 .message:hover,
 .message:focus {
-  background-color: rgba(49, 50, 68, 0.98);
+  background-color: #313244;
 }
 
 .message:second-in-stack {
-  background-color: rgba(24, 24, 37, 0.96);
+  background-color: #181825;
 }
 
 .message:lower-in-stack {
@@ -293,12 +293,12 @@ stage {
 
 .calendar-day:selected,
 .calendar-today:selected {
-  background-color: #cba6f7;
+  background-color: #b4befe;
   color: #1e1e2e;
 }
 
 .calendar-today {
-  color: #cba6f7;
+  color: #b4befe;
   font-weight: bold;
 }
 
@@ -307,7 +307,7 @@ stage {
 .osd-window,
 .workspace-switcher-container,
 .resize-popup {
-  background-color: rgba(30, 30, 46, 0.92);
+  background-color: rgba(30, 30, 46, 0.97);
   border: 1px solid rgba(205, 214, 244, 0.08);
   border-radius: 22px;
   box-shadow: 0 2px 4px rgba(17, 17, 27, 0.3);
@@ -316,12 +316,12 @@ stage {
 
 .osd-window .level {
   -barlevel-background-color: #45475a;
-  -barlevel-active-background-color: #cba6f7;
+  -barlevel-active-background-color: #b4befe;
 }
 
 .switcher-popup .switcher-list,
 .switcher-list {
-  background-color: rgba(30, 30, 46, 0.92);
+  background-color: rgba(30, 30, 46, 0.97);
   border: 1px solid rgba(205, 214, 244, 0.08);
   border-radius: 24px;
   box-shadow: 0 2px 4px rgba(17, 17, 27, 0.3);
@@ -332,7 +332,7 @@ stage {
 }
 
 .switcher-list .item-box:selected {
-  background-color: rgba(203, 166, 247, 0.22);
+  background-color: rgba(180, 190, 254, 0.22);
 }
 
 .modal-dialog {
@@ -353,7 +353,7 @@ stage {
 }
 
 .modal-dialog .modal-dialog-button-box .modal-dialog-button.default {
-  background-color: #cba6f7;
+  background-color: #b4befe;
   color: #1e1e2e;
 }
 
@@ -367,7 +367,7 @@ stage {
 }
 
 .search-entry:focus {
-  border-color: rgba(203, 166, 247, 0.6);
+  border-color: rgba(180, 190, 254, 0.6);
 }
 
 .search-section-content {
@@ -377,7 +377,7 @@ stage {
 
 .app-folder-dialog {
   border-radius: 28px;
-  background-color: rgba(30, 30, 46, 0.92);
+  background-color: rgba(30, 30, 46, 0.97);
 }
 
 .workspace-background {
@@ -406,7 +406,7 @@ stage {
 /* ───────────────────────── Text selection & entries ───────────────────────── */
 
 StEntry {
-  selection-background-color: rgba(203, 166, 247, 0.35);
+  selection-background-color: rgba(180, 190, 254, 0.35);
   selected-color: #cdd6f4;
-  caret-color: #cba6f7;
+  caret-color: #b4befe;
 }
