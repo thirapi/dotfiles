@@ -1,0 +1,10 @@
+blur-my-shell@aunetx
+dash-to-dock@micxgx.gmail.com
+dynamic-music-pill@andbal
+forge@jmmaranan.com
+gnome-ui-tune@itstime.tech
+just-perfection-desktop@just-perfection
+netspeedsimplified@prateekmedia.extension
+ResourceBuzzLite@hridoybuzz.dev
+spotify-ad-block@danigm.net
+user-theme@gnome-shell-extensions.gcampax.github.com
