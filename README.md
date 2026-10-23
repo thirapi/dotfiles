@@ -10,7 +10,8 @@ Managed with [GNU Stow](https://www.gnu.org/software/stow/). Each top-level fold
 | kitty      | `.config/kitty`                                           |
 | wezterm    | `.config/wezterm`                                         |
 | fastfetch  | `.config/fastfetch`, `.config/ascii-art`                  |
-| gtk        | `.config/gtk-{3,4}.0/settings.ini`                        |
+| gtk        | `.config/gtk-{3,4}.0/{settings.ini,gtk.css}` (Mocha colors)|
+| shell-theme| `.local/share/themes/Mocha-Mac` (GNOME Shell theme)   |
 | wallpapers | `.local/share/backgrounds`                                |
 | gnome      | *not stowed* — dconf dumps + extension list               |
 
@@ -19,7 +20,7 @@ Managed with [GNU Stow](https://www.gnu.org/software/stow/). Each top-level fold
 ```sh
 sudo apt install stow git zsh kitty fastfetch
 git clone <repo> ~/dotfiles && cd ~/dotfiles
-stow -t ~ zsh tmux git kitty wezterm fastfetch gtk wallpapers
+stow -t ~ zsh tmux git kitty wezterm fastfetch gtk wallpapers shell-theme
 ./gnome/import.sh          # look & feel, extension settings, keybindings
 ```
 
@@ -27,7 +28,7 @@ Extensions listed in `gnome/extensions.txt` must be installed from extensions.gn
 
 ## Not tracked (install manually)
 
-- Themes → `~/.local/share/themes` (Catppuccin GTK, Flat-Remix GTK)
+- GTK3 theme → `~/.local/share/themes/adw-gtk3{,-dark}` (github.com/lassekongo83/adw-gtk3 release)
 - Icons/cursors → `~/.local/share/icons` (Bibata-Modern-Ice)
 - Fonts → `~/.local/share/fonts` (FantasqueSansM / JetBrainsMono Nerd, VictorMono)
 - Secrets/env → `~/.zshrc.local` (sourced by `.zshrc`)
