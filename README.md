@@ -15,6 +15,7 @@ Managed with [GNU Stow](https://www.gnu.org/software/stow/). Each top-level fold
 | wallpapers | `.local/share/backgrounds`                                |
 | shell-extensions | `.local/share/gnome-shell/extensions/mac-top-bar@thirapi` (top bar slides down over fullscreen windows when the pointer pushes the top edge; islands merge into a solid bar while a window is maximized) |
 | forge      | `.config/forge` (Forge tiling: float rules + Mocha/ember stylesheet). Keep `stylesheet.css` free of `/* */` comments: Forge parses it itself and crashes on them. A Forge update may overwrite it (a `.bak` is kept); restore from git. |
+| icons      | `.local/share/icons/Mocha-Icons` (Adwaita symbolic icons over Colloid Orange Catppuccin Dark; needs Colloid installed, see below) |
 | gnome      | *not stowed* — dconf dumps + extension list               |
 
 ## Install
@@ -22,7 +23,7 @@ Managed with [GNU Stow](https://www.gnu.org/software/stow/). Each top-level fold
 ```sh
 sudo apt install stow git zsh kitty fastfetch
 git clone <repo> ~/dotfiles && cd ~/dotfiles
-stow -t ~ zsh tmux git kitty wezterm fastfetch gtk wallpapers shell-theme shell-extensions forge
+stow -t ~ zsh tmux git kitty wezterm fastfetch gtk wallpapers shell-theme shell-extensions forge icons
 ./gnome/import.sh          # look & feel, extension settings, keybindings
 ```
 
@@ -31,7 +32,9 @@ Extensions listed in `gnome/extensions.txt` must be installed from extensions.gn
 ## Not tracked (install manually)
 
 - GTK3 theme → `~/.local/share/themes/adw-gtk3{,-dark}` (github.com/lassekongo83/adw-gtk3 release)
-- Icons/cursors → `~/.local/share/icons` (Bibata-Modern-Ice)
+- Icons/cursors → `~/.local/share/icons` (Bibata-Modern-Ice cursor; Colloid icons:
+  `git clone https://github.com/vinceliuice/Colloid-icon-theme && ./install.sh -s catppuccin -t orange`,
+  the active theme is `Mocha-Icons`, which layers Adwaita's symbolic icons over it)
 - Fonts → `~/.local/share/fonts` (FantasqueSansM / JetBrainsMono Nerd, VictorMono)
 - Secrets/env → `~/.zshrc.local` (sourced by `.zshrc`)
 

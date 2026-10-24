@@ -19,6 +19,17 @@ const STYLE_CLASS = 'solid';
 export class SolidBar {
     enable() {
         this._laterId = 0;
+        this._panelGone = false;
+
+        // On logout the shell tears the panel down without disabling
+        // extensions first, while closing windows still queue updates; stop
+        // as soon as the panel goes.
+        for (const actor of [Main.panel, Main.layoutManager.panelBox]) {
+            actor.connectObject('destroy', () => {
+                this._panelGone = true;
+                this._removeLater();
+            }, this);
+        }
 
         for (const actor of global.get_window_actors())
             this._trackActor(actor);
@@ -47,9 +58,10 @@ export class SolidBar {
     }
 
     disable() {
-        if (this._laterId) {
-            global.compositor.get_laters().remove(this._laterId);
-            this._laterId = 0;
+        this._removeLater();
+        if (!this._panelGone) {
+            Main.panel.disconnectObject(this);
+            Main.layoutManager.panelBox.disconnectObject(this);
         }
 
         for (const actor of global.get_window_actors()) {
@@ -61,7 +73,8 @@ export class SolidBar {
         global.display.disconnectObject(this);
         Main.overview.disconnectObject(this);
 
-        Main.panel.remove_style_class_name(STYLE_CLASS);
+        if (!this._panelGone)
+            Main.panel.remove_style_class_name(STYLE_CLASS);
     }
 
     // The window's own state signals are the reliable ones: during the
@@ -84,7 +97,7 @@ export class SolidBar {
     // frame. A low-priority idle can starve while the compositor animates
     // (a maximize, say), so run just before the next redraw instead.
     _queueUpdate() {
-        if (this._laterId)
+        if (this._laterId || this._panelGone)
             return;
 
         this._laterId = global.compositor.get_laters().add(Meta.LaterType.BEFORE_REDRAW, () => {
@@ -94,7 +107,17 @@ export class SolidBar {
         });
     }
 
+    _removeLater() {
+        if (this._laterId) {
+            global.compositor.get_laters().remove(this._laterId);
+            this._laterId = 0;
+        }
+    }
+
     _update() {
+        if (this._panelGone)
+            return;
+
         // The overview shows the islands over its own backdrop.
         const solid = !Main.overview.visible && !Main.overview.animationInProgress &&
             this._windowReachesPanel();

@@ -93,6 +93,14 @@ stage {
   box-shadow: inset 0 0 0 100px rgba(205, 214, 244, 0.14);
 }
 
+/* The stock theme gives pressed + hovered its own (white, 32%) wash. */
+#panel .panel-button:active:hover,
+#panel .panel-button:checked:hover,
+#panel:overview .panel-button:active:hover,
+#panel:overview .panel-button:checked:hover {
+  box-shadow: inset 0 0 0 100px rgba(205, 214, 244, 0.18);
+}
+
 #panel #panelCenter .panel-button,
 #panel #panelCenter .panel-button .clock,
 #panel:overview #panelCenter .panel-button {
@@ -101,10 +109,31 @@ stage {
 
 #panel #panelCenter .panel-button:hover,
 #panel #panelCenter .panel-button:focus,
-#panel #panelCenter .panel-button:checked,
-#panel:overview #panelCenter .panel-button:hover,
-#panel:overview #panelCenter .panel-button:checked {
+#panel:overview #panelCenter .panel-button:hover {
   box-shadow: inset 0 0 0 100px rgba(30, 30, 46, 0.10);
+}
+
+#panel #panelCenter .panel-button:active,
+#panel #panelCenter .panel-button:checked,
+#panel #panelCenter .panel-button:active:hover,
+#panel #panelCenter .panel-button:checked:hover,
+#panel:overview #panelCenter .panel-button:checked,
+#panel:overview #panelCenter .panel-button:checked:hover {
+  box-shadow: inset 0 0 0 100px rgba(30, 30, 46, 0.14);
+}
+
+/* The clock button itself never draws a state; the stock theme washes its
+ * inner .clock label in white instead. On the ember island that wash is dark. */
+#panel #panelCenter .panel-button.clock-display:hover .clock,
+#panel #panelCenter .panel-button.clock-display:focus .clock {
+  box-shadow: inset 0 0 0 100px rgba(30, 30, 46, 0.10);
+}
+
+#panel #panelCenter .panel-button.clock-display:active .clock,
+#panel #panelCenter .panel-button.clock-display:checked .clock,
+#panel #panelCenter .panel-button.clock-display:active .clock:hover,
+#panel #panelCenter .panel-button.clock-display:checked .clock:hover {
+  box-shadow: inset 0 0 0 100px rgba(30, 30, 46, 0.14);
 }
 
 /* Dynamic island: the stage mac-top-bar@thirapi grows beside the clock.
@@ -176,6 +205,21 @@ stage {
 
 #panel #panelCenter .island-battery.low .island-battery-label {
   font-weight: 800;
+}
+
+#panel #panelCenter .island-record {
+  spacing: 7px;
+}
+
+#panel #panelCenter .island-record-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: #1e1e2e;
+}
+
+#panel #panelCenter .island-record-label {
+  font-feature-settings: "tnum";
 }
 
 #panel .panel-button#panelActivities .workspace-dot {
@@ -339,6 +383,24 @@ stage {
   border-radius: 999px;
 }
 
+/* Header row (battery pill, screenshot / settings / lock / power): same
+ * surface as an "off" tile instead of the stock grey. */
+.quick-settings .icon-button,
+.quick-settings .quick-settings-system-item .power-item {
+  color: #cdd6f4;
+  background-color: #313244;
+}
+
+.quick-settings .icon-button:hover,
+.quick-settings .quick-settings-system-item .power-item:hover {
+  background-color: #3b3d52;
+}
+
+.quick-settings .icon-button:active,
+.quick-settings .quick-settings-system-item .power-item:active {
+  background-color: #45475a;
+}
+
 .slider {
   -barlevel-height: 6px;
   -barlevel-background-color: #45475a;
@@ -397,8 +459,11 @@ stage {
   icon-size: 12px;
 }
 
+/* The message list sizes each message to its minimum height, so the caption
+ * needs a real minimum: one line of its 0.85em text. (min-height: 0 let the
+ * calendar's media player squash it and clip "Spotify".) */
 .message .message-header .message-header-content {
-  min-height: 0;
+  min-height: 1.4em;
   padding-bottom: 2px;
 }
 
@@ -494,6 +559,8 @@ stage {
 
 /* ───────────────────────── Calendar / date menu ───────────────────────── */
 
+/* Cards in the date menu. The calendar card stays put on hover (it is a
+ * grid of its own buttons); the clickable cards lighten. */
 .datemenu-popover .calendar,
 .datemenu-popover .datemenu-today-button,
 .datemenu-popover .events-button,
@@ -503,7 +570,6 @@ stage {
   background-color: rgba(49, 50, 68, 0.6);
 }
 
-.datemenu-popover .calendar:hover,
 .datemenu-popover .datemenu-today-button:hover,
 .datemenu-popover .events-button:hover,
 .datemenu-popover .world-clocks-button:hover,
@@ -511,15 +577,82 @@ stage {
   background-color: rgba(69, 71, 90, 0.8);
 }
 
-.calendar-day:selected,
-.calendar-today:selected {
-  background-color: #e9684e;
-  color: #1e1e2e;
+/* Calendar grid: the stock theme draws every day, the month label and the
+ * pagers as grey flat buttons. Here they are bare text on the card; only
+ * today is a filled ember dot, and hover / selection are faint washes. */
+.datemenu-popover .calendar .calendar-month-header .calendar-month-label,
+.datemenu-popover .calendar .calendar-month-header .pager-button,
+.datemenu-popover .calendar .calendar-day-heading,
+.datemenu-popover .calendar .calendar-day {
+  background-color: transparent;
+  box-shadow: none;
 }
 
-.calendar-today {
-  color: #e9684e;
+.datemenu-popover .calendar .calendar-month-header .calendar-month-label {
+  color: #cdd6f4 !important;
   font-weight: bold;
+}
+
+.datemenu-popover .calendar .calendar-month-header .pager-button {
+  color: #a6adc8;
+}
+
+.datemenu-popover .calendar .calendar-month-header .calendar-month-label:hover,
+.datemenu-popover .calendar .calendar-month-header .pager-button:hover,
+.datemenu-popover .calendar .calendar-day:hover {
+  background-color: rgba(205, 214, 244, 0.08);
+}
+
+.datemenu-popover .calendar .calendar-day-heading {
+  color: #6c7086;
+  font-size: 0.85em;
+}
+
+.datemenu-popover .calendar .calendar-day {
+  color: #cdd6f4;
+  font-weight: 600;
+}
+
+.datemenu-popover .calendar .calendar-day.calendar-weekend {
+  color: #a6adc8;
+}
+
+.datemenu-popover .calendar .calendar-day.calendar-other-month,
+.datemenu-popover .calendar .calendar-day.calendar-other-month.calendar-weekend {
+  color: #585b70;
+  font-weight: normal;
+}
+
+.datemenu-popover .calendar .calendar-day:selected,
+.datemenu-popover .calendar .calendar-day:active {
+  background-color: rgba(233, 104, 78, 0.22);
+}
+
+.datemenu-popover .calendar .calendar-day.calendar-today,
+.datemenu-popover .calendar .calendar-day.calendar-today:selected {
+  background-color: #e9684e;
+  color: #1e1e2e !important;
+  font-weight: bold;
+}
+
+.datemenu-popover .calendar .calendar-day.calendar-today:hover {
+  background-color: #ef8169;
+}
+
+/* "Clear" under the notification list */
+.message-list-controls .message-list-clear-button {
+  background-color: rgba(205, 214, 244, 0.08);
+  color: #cdd6f4;
+  box-shadow: none;
+}
+
+.message-list-controls .message-list-clear-button:hover {
+  background-color: rgba(205, 214, 244, 0.16);
+}
+
+.message-list-controls .message-list-clear-button:insensitive {
+  background-color: rgba(205, 214, 244, 0.04);
+  color: #585b70;
 }
 
 /* ───────────────────────── OSD, switcher, dialogs ───────────────────────── */

@@ -7,6 +7,9 @@
  *   osd      volume and brightness levels, instead of the centre-screen OSD
  *   battery  a short note when the charger is plugged in or the battery
  *            drops to the low threshold
+ *   record   a pulsing dot and the elapsed time while the screen is being
+ *            recorded; clicking it stops the recording. It replaces the
+ *            shell's own recording indicator and outranks media.
  * OSD and battery are transient and take the stage for a moment; media
  * comes back afterwards. A paused player lingers for a minute, then the
  * stage folds away until something plays again.
@@ -32,6 +35,7 @@ const VISUALIZER_BARS = 3;
 const VISUALIZER_MIN = 4;
 const VISUALIZER_MAX = 14;
 const LOW_BATTERY = 20;
+const RECORD_PULSE_TIME = 500;
 const TITLE_MAX_WIDTH = 180;
 const MARQUEE_SPEED = 30; // px per second
 const MARQUEE_PAUSE = 2000;
@@ -48,6 +52,8 @@ export class Island {
         this._lingerId = 0;
         this._visualizerId = 0;
         this._marqueeId = 0;
+        this._recordId = 0;
+        this._recordStart = 0;
         this._marqueeRunning = false;
         this._titleText = null;
         this._targetWidth = 0;
@@ -71,6 +77,7 @@ export class Island {
             media: this._buildMedia(),
             osd: this._buildOsd(),
             battery: this._buildBattery(),
+            record: this._buildRecord(),
         };
         for (const view of Object.values(this._views)) {
             // A view shown from the folded state may first measure before its
@@ -92,18 +99,22 @@ export class Island {
         this._watchMedia();
         this._patchOsd();
         this._watchBattery();
+        this._watchRecording();
         this._update();
     }
 
     disable() {
         this._stopMarquee();
         this._cancellable.cancel();
-        for (const id of [this._transientId, this._lingerId, this._visualizerId, this._marqueeId]) {
+        for (const id of [this._transientId, this._lingerId, this._visualizerId, this._marqueeId,
+            this._recordId]) {
             if (id)
                 GLib.source_remove(id);
         }
 
         this._restoreOsd();
+        this._unwatchRecording();
+        this._recordDot.remove_all_transitions();
 
         this._battery?.disconnectObject(this);
         this._battery = null;
@@ -123,7 +134,8 @@ export class Island {
     // ───── stage ─────
 
     _update() {
-        const name = this._transient ?? (this._mediaVisible && this._player ? 'media' : null);
+        const name = this._transient ?? (this._recordStart ? 'record'
+            : this._mediaVisible && this._player ? 'media' : null);
         const view = name ? this._views[name] : null;
 
         // While folding away, the old view stays visible under the clip.
@@ -236,8 +248,7 @@ export class Island {
         box.add_child(this._controls);
 
         box.connect('notify::hover', () => {
-            this._controls.visible = box.hover;
-            this._visualizer.visible = !box.hover;
+            this._syncMediaExtras();
             this._update();
         });
 
@@ -297,6 +308,14 @@ export class Island {
         this._update();
     }
 
+    // Hover shows the controls; otherwise the visualizer, but only while
+    // something plays (paused, its three flat bars read as a "⋯" menu).
+    _syncMediaExtras() {
+        const hover = this._views.media.hover;
+        this._controls.visible = hover;
+        this._visualizer.visible = !hover && this._player?.status === 'Playing';
+    }
+
     _stopLinger() {
         if (this._lingerId) {
             GLib.source_remove(this._lingerId);
@@ -318,6 +337,7 @@ export class Island {
             ? 'media-playback-pause-symbolic' : 'media-playback-start-symbolic';
         this._prevButton.reactive = player.canGoPrevious;
         this._nextButton.reactive = player.canGoNext;
+        this._syncMediaExtras();
     }
 
     _setTitle(text) {
@@ -407,6 +427,86 @@ export class Island {
             this._visualizerId = 0;
             this._bars.forEach(bar => bar.ease({height: VISUALIZER_MIN, duration: VISUALIZER_INTERVAL}));
         }
+    }
+
+    // ───── screen recording ─────
+
+    _buildRecord() {
+        const box = new St.BoxLayout({style_class: 'island-view island-record'});
+        this._recordDot = new St.Widget({
+            style_class: 'island-record-dot',
+            y_align: Clutter.ActorAlign.CENTER,
+        });
+        this._recordLabel = new St.Label({
+            style_class: 'island-record-label',
+            y_align: Clutter.ActorAlign.CENTER,
+        });
+        box.add_child(this._recordDot);
+        box.add_child(this._recordLabel);
+
+        const button = new St.Button({
+            child: box,
+            accessible_name: 'Stop Screencast',
+            y_align: Clutter.ActorAlign.CENTER,
+        });
+        button.connect('clicked', () => Main.screenshotUI.stopScreencast());
+        return button;
+    }
+
+    // The island takes over from the shell's own indicator; hiding its
+    // container leaves the indicator's show/hide logic untouched.
+    _watchRecording() {
+        this._stockRecording = Main.panel.statusArea.screenRecording?.container ?? null;
+        this._stockRecording?.hide();
+
+        Main.screenshotUI.connectObject('notify::screencast-in-progress',
+            () => this._syncRecording(), this);
+        this._syncRecording();
+    }
+
+    _unwatchRecording() {
+        Main.screenshotUI.disconnectObject(this);
+        this._stockRecording?.show();
+        this._stockRecording = null;
+    }
+
+    _syncRecording() {
+        const recording = Main.screenshotUI.screencast_in_progress;
+
+        if (recording && !this._recordStart) {
+            this._recordStart = GLib.get_monotonic_time();
+            this._recordTick(true);
+            this._recordId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
+                this._recordTick(false);
+                return GLib.SOURCE_CONTINUE;
+            });
+        } else if (!recording && this._recordStart) {
+            this._recordStart = 0;
+            GLib.source_remove(this._recordId);
+            this._recordId = 0;
+            this._recordDot.remove_all_transitions();
+            this._recordDot.opacity = 255;
+        }
+        this._update();
+    }
+
+    // Once a second: the elapsed time, and the dot fades out and back in.
+    _recordTick(first) {
+        const seconds = Math.floor((GLib.get_monotonic_time() - this._recordStart) / 1e6);
+        this._recordLabel.text = `${Math.floor(seconds / 60)}:${`${seconds % 60}`.padStart(2, '0')}`;
+        if (first)
+            return;
+
+        this._recordDot.ease({
+            opacity: 70,
+            duration: RECORD_PULSE_TIME,
+            mode: Clutter.AnimationMode.EASE_IN_OUT_QUAD,
+            onComplete: () => this._recordDot?.ease({
+                opacity: 255,
+                duration: RECORD_PULSE_TIME,
+                mode: Clutter.AnimationMode.EASE_IN_OUT_QUAD,
+            }),
+        });
     }
 
     // ───── OSD ─────
