@@ -1,0 +1,152 @@
+.tiled {
+  color: rgba(233, 104, 78, 1);
+  opacity: 1;
+  border-width: 2px;
+}
+
+.split {
+  color: rgba(249, 226, 175, 1);
+  opacity: 1;
+  border-width: 2px;
+}
+
+.stacked {
+  color: rgba(250, 179, 135, 1);
+  opacity: 1;
+  border-width: 2px;
+}
+
+.tabbed {
+  color: rgba(233, 104, 78, 1);
+  opacity: 1;
+  border-width: 2px;
+}
+
+.floated {
+  color: rgba(166, 173, 200, 1);
+  border-width: 2px;
+  opacity: 1;
+}
+
+.window-tiled-border {
+  border-width: 2px;
+  border-color: rgba(233, 104, 78, 0.9);
+  border-style: solid;
+  border-radius: 15px;
+}
+
+.window-split-border {
+  border-width: 2px;
+  border-color: rgba(249, 226, 175, 0.9);
+  border-style: solid;
+  border-radius: 15px;
+}
+
+.window-split-horizontal {
+  border-left-width: 0;
+  border-top-width: 0;
+  border-bottom-width: 0;
+}
+
+.window-split-vertical {
+  border-left-width: 0;
+  border-top-width: 0;
+  border-right-width: 0;
+}
+
+.window-stacked-border {
+  border-width: 2px;
+  border-color: rgba(250, 179, 135, 0.9);
+  border-style: solid;
+  border-radius: 15px;
+}
+
+.window-tabbed-border {
+  border-width: 2px;
+  border-color: rgba(233, 104, 78, 0.9);
+  border-style: solid;
+  border-radius: 15px;
+}
+
+.window-floated-border {
+  border-width: 2px;
+  border-color: rgba(166, 173, 200, 0.7);
+  border-style: solid;
+  border-radius: 15px;
+}
+
+.window-tabbed-bg {
+  background-color: #181825;
+  border-radius: 12px;
+  padding: 3px;
+}
+
+.window-tabbed-tab {
+  background-color: transparent;
+  border-color: transparent;
+  border-width: 0;
+  border-radius: 9px;
+  color: #a6adc8;
+  margin: 1px;
+  box-shadow: none;
+}
+
+.window-tabbed-tab:hover {
+  background-color: rgba(205, 214, 244, 0.08);
+  color: #cdd6f4;
+}
+
+.window-tabbed-tab-active {
+  background-color: #e9684e;
+  color: #1e1e2e;
+  font-weight: bold;
+  box-shadow: none;
+}
+
+.window-tabbed-tab-close {
+  padding: 3px;
+  margin: 4px;
+  border-radius: 999px;
+  width: 16px;
+  background-color: rgba(205, 214, 244, 0.10);
+}
+
+.window-tabbed-tab-close:hover {
+  background-color: rgba(243, 139, 168, 0.85);
+}
+
+.window-tabbed-tab-icon {
+  margin: 3px;
+}
+
+.window-tilepreview-tiled {
+  border-width: 1px;
+  border-color: rgba(233, 104, 78, 0.55);
+  border-style: solid;
+  border-radius: 15px;
+  background-color: rgba(233, 104, 78, 0.16);
+}
+
+.window-tilepreview-stacked {
+  border-width: 1px;
+  border-color: rgba(250, 179, 135, 0.55);
+  border-style: solid;
+  border-radius: 15px;
+  background-color: rgba(250, 179, 135, 0.16);
+}
+
+.window-tilepreview-swap {
+  border-width: 1px;
+  border-color: rgba(233, 104, 78, 0.8);
+  border-style: solid;
+  border-radius: 15px;
+  background-color: rgba(233, 104, 78, 0.28);
+}
+
+.window-tilepreview-tabbed {
+  border-width: 1px;
+  border-color: rgba(233, 104, 78, 0.55);
+  border-style: solid;
+  border-radius: 15px;
+  background-color: rgba(233, 104, 78, 0.16);
+}

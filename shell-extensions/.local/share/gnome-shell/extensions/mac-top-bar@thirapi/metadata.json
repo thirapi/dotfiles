@@ -1,6 +1,6 @@
 {
   "name": "Mac Top Bar",
-  "description": "macOS menu bar behaviour for an island top bar: push the pointer against the top edge to slide the bar down over a fullscreen window, and merge the islands into one solid bar while a window is maximized (the theme styles #panel.solid).",
+  "description": "macOS-inspired behaviour for an island top bar: push the pointer against the top edge to slide the bar down over a fullscreen window, merge the islands into one solid bar while a window is maximized, and let the clock island grow to show media, volume / brightness levels and battery notes (styled by the shell theme).",
   "uuid": "mac-top-bar@thirapi",
   "shell-version": [
     "50"

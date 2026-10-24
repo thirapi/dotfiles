@@ -107,6 +107,77 @@ stage {
   box-shadow: inset 0 0 0 100px rgba(30, 30, 46, 0.10);
 }
 
+/* Dynamic island: the stage mac-top-bar@thirapi grows beside the clock.
+ * Everything sits on the ember island, so it is drawn in base (#1e1e2e). */
+#panel #panelCenter .island-view {
+  padding: 0 10px 0 2px;
+  spacing: 6px;
+  color: #1e1e2e;
+  font-weight: 600;
+}
+
+#panel #panelCenter .island-media-source {
+  spacing: 6px;
+}
+
+#panel #panelCenter .island-cover {
+  icon-size: 18px;
+  color: #1e1e2e;
+}
+
+#panel #panelCenter .island-visualizer {
+  spacing: 2px;
+  height: 14px;
+  padding: 0 2px;
+}
+
+#panel #panelCenter .island-visualizer-bar {
+  width: 3px;
+  border-radius: 2px;
+  background-color: #1e1e2e;
+}
+
+#panel #panelCenter .island-control {
+  padding: 3px 5px;
+  border-radius: 999px;
+  color: #1e1e2e;
+}
+
+#panel #panelCenter .island-control:hover {
+  background-color: rgba(30, 30, 46, 0.12);
+}
+
+#panel #panelCenter .island-control:insensitive {
+  color: rgba(30, 30, 46, 0.4);
+}
+
+#panel #panelCenter .island-control StIcon,
+#panel #panelCenter .island-osd-icon,
+#panel #panelCenter .island-battery-icon {
+  icon-size: 14px;
+  color: #1e1e2e;
+  -st-icon-style: symbolic;
+}
+
+#panel #panelCenter .island-level {
+  width: 96px;
+  height: 6px;
+  -barlevel-height: 6px;
+  -barlevel-background-color: rgba(30, 30, 46, 0.22);
+  -barlevel-active-background-color: #1e1e2e;
+  -barlevel-overdrive-color: #11111b;
+  -barlevel-overdrive-separator-width: 1px;
+}
+
+#panel #panelCenter .island-osd-label {
+  min-width: 24px;
+  text-align: right;
+}
+
+#panel #panelCenter .island-battery.low .island-battery-label {
+  font-weight: 800;
+}
+
 #panel .panel-button#panelActivities .workspace-dot {
   background-color: #cdd6f4;
 }
