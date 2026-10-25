@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Load gnome/dconf/*.ini back into dconf (overwrites those keys)
+# Load gnome/dconf/*.ini back into dconf (overwrites those keys), turning the
+# @HOME@ placeholder from export.sh back into this user's home.
 set -euo pipefail
 cd "$(dirname "$0")/dconf"
 declare -A P=(
@@ -13,6 +14,6 @@ declare -A P=(
   [shell]=/org/gnome/shell/
 )
 for name in "${!P[@]}"; do
-  [[ -f "$name.ini" ]] && dconf load "${P[$name]}" < "$name.ini"
+  [[ -f "$name.ini" ]] && sed "s|@HOME@|$HOME|g" "$name.ini" | dconf load "${P[$name]}"
 done
 echo "imported; log out/in if the shell looks off"

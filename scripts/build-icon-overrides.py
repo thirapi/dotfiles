@@ -17,7 +17,7 @@ import re
 COLLOID = os.path.expanduser('~/.local/share/icons/Colloid-Orange-Catppuccin-Dark/apps/scalable')
 HICOLOR = '/usr/share/icons/hicolor/scalable/apps'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                   '..', 'icons', '.local', 'share', 'icons', 'Mocha-Icons', 'apps', 'scalable')
+                   '..', 'home', 'icons', '.local', 'share', 'icons', 'Mocha-Icons', 'apps', 'scalable')
 
 # Icon names whose Colloid artwork imitates Apple's.
 APPS = [

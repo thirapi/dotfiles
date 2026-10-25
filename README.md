@@ -1,44 +1,83 @@
-# dotfiles — Debian sid + GNOME (Wayland)
+# dotfiles — Debian sid + GNOME 50 (Wayland)
 
-Managed with [GNU Stow](https://www.gnu.org/software/stow/). Each top-level folder is a package mirroring `$HOME`.
-
-| package    | links                                                     |
-|------------|-----------------------------------------------------------|
-| zsh        | `.zshrc`, `.p10k.zsh` (oh-my-zsh + powerlevel10k)         |
-| tmux       | `.tmux.conf`                                              |
-| git        | `.gitconfig`, `.config/git/ignore`                        |
-| kitty      | `.config/kitty`                                           |
-| wezterm    | `.config/wezterm`                                         |
-| fastfetch  | `.config/fastfetch`, `.config/ascii-art`                  |
-| gtk        | `.config/gtk-{3,4}.0/{settings.ini,gtk.css}`, `.config/gtk-4.0/colors.css` (Mocha palette shared by both, macOS traffic-light buttons) |
-| shell-theme| `.local/share/themes/Mocha-Mac` (GNOME Shell theme)   |
-| wallpapers | `.local/share/backgrounds`                                |
-| shell-extensions | `.local/share/gnome-shell/extensions/mac-top-bar@thirapi` (top bar slides down over fullscreen windows when the pointer pushes the top edge; islands merge into a solid bar while a window is maximized); `mocha-lockscreen@thirapi` loads the Mocha-Mac theme on the lock screen (User Themes doesn't run there) |
-| forge      | `.config/forge` (Forge tiling: float rules + Mocha/ember stylesheet). Keep `stylesheet.css` free of `/* */` comments: Forge parses it itself and crashes on them. A Forge update may overwrite it (a `.bak` is kept); restore from git. |
-| icons      | `.local/share/icons/Mocha-Icons` (Adwaita symbolic icons over Colloid Orange Catppuccin Dark; needs Colloid installed, see below) |
-| gnome      | *not stowed* — dconf dumps + extension list               |
+Catppuccin Mocha with an ember accent (`#e9684e`, sampled from the wallpaper),
+an island top bar with a small dynamic island, and Forge tiling.
 
 ## Install
 
+On a Debian (sid/testing) machine with GNOME 50:
+
 ```sh
-sudo apt install stow git zsh kitty fastfetch
-git clone <repo> ~/dotfiles && cd ~/dotfiles
-stow -t ~ zsh tmux git kitty wezterm fastfetch gtk wallpapers shell-theme shell-extensions forge icons
-./gnome/import.sh          # look & feel, extension settings, keybindings
+sudo apt install git gh && gh auth login   # the repo is private
+gh repo clone thirapi/dotfiles ~/dotfiles
+~/dotfiles/install.sh
 ```
 
-Extensions listed in `gnome/extensions.txt` must be installed from extensions.gnome.org first.
+Then log out and back in (GNOME only loads new extensions at login).
 
-## Not tracked (install manually)
+`install.sh` is safe to re-run: each step checks before it acts, and a file
+that a symlink would replace is moved to `~/.dotfiles-backup/<time>/`, never
+deleted. Downloads are pinned to fixed releases. Run single steps with
+`./install.sh fonts icons`, skip the sudo step with `--no-apt`, list steps
+with `--list`.
 
-- GTK3 theme → `~/.local/share/themes/adw-gtk3{,-dark}` (github.com/lassekongo83/adw-gtk3 release)
-- Icons/cursors → `~/.local/share/icons` (Bibata-Modern-Ice cursor; Colloid icons:
-  `git clone https://github.com/vinceliuice/Colloid-icon-theme && ./install.sh -s catppuccin -t orange`,
-  the active theme is `Mocha-Icons`, which layers Adwaita's symbolic icons over it)
-- Fonts → `~/.local/share/fonts` (FantasqueSansM / JetBrainsMono Nerd, VictorMono)
-- Secrets/env → `~/.zshrc.local` (sourced by `.zshrc`)
+| step       | what it does |
+|------------|--------------|
+| apt        | stow, zsh, tmux, kitty, fastfetch, lsd, dconf-cli, …; WezTerm from its own apt repo; login shell → zsh |
+| shell      | oh-my-zsh, zsh-autosuggestions, zsh-syntax-highlighting, powerlevel10k |
+| fonts      | JetBrainsMono and FantasqueSansMono Nerd Fonts |
+| gtk        | adw-gtk3 (GTK3 apps follow libadwaita) |
+| cursor     | Bibata-Modern-Ice |
+| icons      | Colloid Orange Catppuccin, then `scripts/build-icon-overrides.py` |
+| stow       | links every package in `home/` into `$HOME` |
+| extensions | the enabled extensions from `gnome/dconf/shell.ini`, from extensions.gnome.org |
+| dconf      | `gnome/import.sh`, and Forge's css tag so Forge keeps our stylesheet |
 
-## Workflow
+## Layout
 
-After tweaking GNOME: `./gnome/export.sh && git diff` then commit.
-After editing the shell theme CSS: `./gnome/reload-shell-theme.sh` (no logout needed).
+```
+install.sh          one-shot setup (above)
+home/<package>/     stow packages, each mirroring $HOME
+gnome/dconf/        GNOME settings dumps ($HOME stored as @HOME@)
+gnome/*.sh          export / import settings, reload the shell theme
+scripts/            build-icon-overrides.py
+```
+
+| package          | provides |
+|------------------|----------|
+| zsh              | `.zshrc` (machine-specific tools load only when installed), `.p10k.zsh` (Mocha colours) |
+| tmux             | `.tmux.conf` (Mocha theme, ember session pill, truecolor) |
+| git              | `.gitconfig`, `.config/git/ignore` |
+| kitty            | `.config/kitty` (Catppuccin Mocha) |
+| wezterm          | `.config/wezterm` (Mocha + ember; runs on XWayland, see below) |
+| fastfetch        | `.config/fastfetch`, `.config/ascii-art` |
+| gtk              | `.config/gtk-{3,4}.0`: shared Mocha palette in `colors.css`, traffic-light window buttons |
+| shell-theme      | `.local/share/themes/Mocha-Mac` (GNOME Shell theme) |
+| shell-extensions | `mac-top-bar@thirapi` (fullscreen peek, solid bar when maximized, dynamic island) and `mocha-lockscreen@thirapi` (theme on the lock screen) |
+| forge            | `.config/forge`: float rules and Mocha stylesheet |
+| icons            | `.local/share/icons/Mocha-Icons` (see below) |
+| wallpapers       | `.local/share/backgrounds`, including the current one |
+
+## Day to day
+
+- After changing GNOME settings: `gnome/export.sh`, check `git diff`, commit.
+- After editing the shell theme CSS: `gnome/reload-shell-theme.sh` (no logout).
+- After a Colloid or GNOME app update: `scripts/build-icon-overrides.py`.
+- Machine-local environment and secrets go in `~/.zshrc.local` (never committed).
+
+## Things worth knowing
+
+- **Forge stylesheet:** keep `home/forge/.config/forge/stylesheet/forge/stylesheet.css`
+  free of `/* */` comments; Forge parses it itself and crashes on them. A Forge
+  update with a new css tag overwrites it (keeping a `.bak`); restore from git
+  and rerun `./install.sh dconf`.
+- **Mocha-Icons** layers Adwaita's symbolic icons (they match the shell's
+  weight) and GNOME's own art for apps Colloid draws as Apple look-alikes over
+  Colloid Orange Catppuccin Dark.
+- **Lock screen:** User Themes doesn't run there, so `mocha-lockscreen@thirapi`
+  loads the theme while locked.
+- **WezTerm** (Debian/fury 20240203) reports a wrong window geometry on
+  Wayland, which squares its corners, so it runs on XWayland with no
+  decorations.
+- **Shell extensions** are loaded at login on Wayland: log out and in after
+  installing or changing one.
