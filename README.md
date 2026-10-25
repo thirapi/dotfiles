@@ -13,7 +13,7 @@ Managed with [GNU Stow](https://www.gnu.org/software/stow/). Each top-level fold
 | gtk        | `.config/gtk-{3,4}.0/{settings.ini,gtk.css}`, `.config/gtk-4.0/colors.css` (Mocha palette shared by both, macOS traffic-light buttons) |
 | shell-theme| `.local/share/themes/Mocha-Mac` (GNOME Shell theme)   |
 | wallpapers | `.local/share/backgrounds`                                |
-| shell-extensions | `.local/share/gnome-shell/extensions/mac-top-bar@thirapi` (top bar slides down over fullscreen windows when the pointer pushes the top edge; islands merge into a solid bar while a window is maximized) |
+| shell-extensions | `.local/share/gnome-shell/extensions/mac-top-bar@thirapi` (top bar slides down over fullscreen windows when the pointer pushes the top edge; islands merge into a solid bar while a window is maximized); `mocha-lockscreen@thirapi` loads the Mocha-Mac theme on the lock screen (User Themes doesn't run there) |
 | forge      | `.config/forge` (Forge tiling: float rules + Mocha/ember stylesheet). Keep `stylesheet.css` free of `/* */` comments: Forge parses it itself and crashes on them. A Forge update may overwrite it (a `.bak` is kept); restore from git. |
 | icons      | `.local/share/icons/Mocha-Icons` (Adwaita symbolic icons over Colloid Orange Catppuccin Dark; needs Colloid installed, see below) |
 | gnome      | *not stowed* — dconf dumps + extension list               |

@@ -1,8 +1,8 @@
 [Icon Theme]
 Name=Mocha-Icons
-Comment=Adwaita's symbolic icons (they match GNOME Shell's weight) over Colloid Orange Catppuccin's app and folder icons
+Comment=Adwaita's symbolic icons (they match GNOME Shell's weight) and GNOME's own art for apps Colloid draws as Apple look-alikes (scripts/build-icon-overrides.py), over Colloid Orange Catppuccin's app and folder icons
 Inherits=Colloid-Orange-Catppuccin-Dark,Adwaita,hicolor
-Directories=symbolic/actions,symbolic/apps,symbolic/categories,symbolic/devices,symbolic/emblems,symbolic/emotes,symbolic/mimetypes,symbolic/places,symbolic/status,symbolic/legacy,symbolic/ui
+Directories=apps/scalable,symbolic/actions,symbolic/apps,symbolic/categories,symbolic/devices,symbolic/emblems,symbolic/emotes,symbolic/mimetypes,symbolic/places,symbolic/status,symbolic/legacy,symbolic/ui
 
 [symbolic/actions]
 Context=Actions
@@ -78,5 +78,12 @@ Type=Scalable
 Context=UI
 Size=16
 MinSize=8
+MaxSize=512
+Type=Scalable
+
+[apps/scalable]
+Context=Applications
+Size=64
+MinSize=16
 MaxSize=512
 Type=Scalable

@@ -1,2 +1,5 @@
 # machine-local env/secrets live in ~/.zshrc.local and never enter the repo
 .zshrc.local
+
+# GTK icon caches go stale when the symlinked Adwaita icons update
+icon-theme.cache

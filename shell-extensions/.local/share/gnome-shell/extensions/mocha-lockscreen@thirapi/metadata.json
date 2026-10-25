@@ -1,0 +1,12 @@
+{
+  "name": "Mocha Lockscreen",
+  "description": "Loads the Mocha-Mac shell theme on the lock screen, where the User Themes extension doesn't run. Only loads a stylesheet; touches no input or authentication code.",
+  "uuid": "mocha-lockscreen@thirapi",
+  "session-modes": [
+    "unlock-dialog"
+  ],
+  "shell-version": [
+    "50"
+  ],
+  "url": "https://github.com/thirapi/dotfiles"
+}
