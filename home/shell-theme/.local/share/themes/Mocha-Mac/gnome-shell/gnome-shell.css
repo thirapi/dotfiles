@@ -9,7 +9,7 @@
  *   ember #e9684e (accent, sampled from the wallpaper; hover #ef8169, active #d4553c)
  *   lavender #b4befe  mauve #cba6f7  blue #89b4fa  red #f38ba8  green #a6e3a1
  *
- * Spacing unit 6px: panel margin = Forge window gap (edges 6px, between 12px).
+ * Spacing unit 6px (window gaps); the thin top bar sits 4px from the edge.
  * Shared shapes: windows 15px (libadwaita), top-bar islands full pill, popups/notification cards 18px, quick settings 24px, dock 22px.
  * Hairline borders are rgba(205,214,244,.08). Keep outer shadows tiny (0 2px 4px):
  * the shell clips them to the square actor bounds, which shows up as a
@@ -29,12 +29,13 @@ stage {
  */
 
 #panel {
-  margin: 6px 6px 0 6px;
-  height: 32px;
+  margin: 4px 6px 0 6px;
+  height: 26px;
   background-color: transparent;
   border: none;
   box-shadow: none;
   font-weight: 600;
+  font-size: 0.92em;
 }
 
 #panel #panelLeft,
@@ -48,12 +49,18 @@ stage {
 
 /* Solid bar: while a window is maximized, mac-top-bar@thirapi adds .solid and
  * the side islands melt into one full-width bar in the GTK header bar colour
- * (mantle), so bar and window read as one surface. 32px + 3px + 3px keeps the
- * panel at the islands' 38px, so the work area never moves. */
+ * (mantle), so bar and window read as one surface. 26px + 2px + 2px keeps the
+ * panel at the islands' 30px (26 + 4 margin), so the work area never moves. */
 #panel.solid {
   margin: 0;
-  padding: 3px 6px;
+  padding: 2px 6px;
   background-color: #181825;
+}
+
+/* In the solid bar the clock pill would fill it edge to edge; give it room
+ * above and below, like a menu-bar item. */
+#panel.solid #panelCenter {
+  margin: 3px 0;
 }
 
 #panel.solid #panelLeft,
@@ -73,10 +80,14 @@ stage {
   color: #cdd6f4;
   background-color: transparent;
   border-radius: 999px;
-  border-width: 3px;
+  border-width: 2px;
   box-shadow: none;
-  -natural-hpadding: 10px;
-  -minimum-hpadding: 6px;
+  -natural-hpadding: 9px;
+  -minimum-hpadding: 5px;
+}
+
+#panel .system-status-icon {
+  icon-size: 14px;
 }
 
 #panel .panel-button:hover,
@@ -150,7 +161,7 @@ stage {
 }
 
 #panel #panelCenter .island-cover {
-  icon-size: 18px;
+  icon-size: 15px;
   color: #1e1e2e;
 }
 
@@ -830,6 +841,23 @@ stage {
 
 .workspace-background {
   border-radius: 18px;
+}
+
+/* ───────────────────────── Tiling Shell ─────────────────────────
+ * Drop previews in ember glass with the windows' 15px corners; layout tiles
+ * (snap assistant, top-bar menu) in Mocha surfaces with ember for hover and
+ * the active layout. Extension stylesheets outrank the theme whatever the
+ * specificity (even against !important), so whatever Tiling Shell itself
+ * sets (corner radius, tile colours) is overridden from mac-top-bar's own
+ * stylesheet.css instead; only the preview colours, which Tiling Shell
+ * leaves to the theme, live here.
+ */
+
+/* The preview's base class (also GNOME's own snap preview). Tiling Shell
+ * sometimes drops custom-tile-preview and keeps only the corner classes. */
+.tile-preview {
+  background-color: rgba(233, 104, 78, 0.16);
+  border: 1px solid rgba(233, 104, 78, 0.55);
 }
 
 /* ───────────────────────── Dock (Dash to Dock) ───────────────────────── */

@@ -1,0 +1,97 @@
+/*
+ * mac-top-bar: overrides for Tiling Shell, kept here rather than in the
+ * Mocha-Mac theme. GNOME ranks extension stylesheets above the theme no
+ * matter the specificity (even !important), so only another extension
+ * stylesheet with more specific selectors can restyle what Tiling Shell's
+ * stylesheet sets. Palette: Catppuccin Mocha + ember #e9684e.
+ */
+
+.tile-preview.custom-tile-preview,
+.tile-preview.selection-tile-preview {
+  background-color: rgba(233, 104, 78, 0.16);
+  border: 1px solid rgba(233, 104, 78, 0.55);
+}
+
+.tile-preview.blur-tile-preview {
+  border: 1px solid rgba(233, 104, 78, 0.55);
+  box-shadow: 0 2px 4px rgba(17, 17, 27, 0.3);
+}
+
+.tile-preview.custom-tile-preview { border-radius: 15px; }
+.tile-preview.top-left-border-radius { border-radius: 15px 0 0 0; }
+.tile-preview.top-right-border-radius { border-radius: 0 15px 0 0; }
+.tile-preview.bottom-right-border-radius { border-radius: 0 0 15px 0; }
+.tile-preview.bottom-left-border-radius { border-radius: 0 0 0 15px; }
+.tile-preview.top-left-border-radius.top-right-border-radius { border-radius: 15px 15px 0 0; }
+.tile-preview.top-right-border-radius.bottom-right-border-radius { border-radius: 0 15px 15px 0; }
+.tile-preview.bottom-right-border-radius.bottom-left-border-radius { border-radius: 0 0 15px 15px; }
+.tile-preview.top-left-border-radius.bottom-left-border-radius { border-radius: 15px 0 0 15px; }
+.tile-preview.top-left-border-radius.top-right-border-radius.bottom-right-border-radius.bottom-left-border-radius { border-radius: 15px; }
+
+/* Snap assistant: the bar of layouts above a dragged window */
+.popup-menu-content.snap-assistant {
+  border-radius: 18px;
+}
+
+.popup-menu-content.snap-assistant .snap-assist-tile {
+  border-color: rgba(205, 214, 244, 0.18);
+  background-color: rgba(205, 214, 244, 0.08);
+}
+
+.popup-menu-content.snap-assistant .snap-assist-tile:hover {
+  border-color: #e9684e;
+  background-color: rgba(233, 104, 78, 0.35);
+}
+
+/* Layout picker in the top-bar menu */
+.indicator-menu-item .layout-button {
+  border-radius: 10px;
+  /* it also carries the stock .button class, which paints it grey */
+  background-color: #313244;
+}
+
+.indicator-menu-item .layout-button:hover {
+  background-color: #3b3d52;
+}
+
+.indicator-menu-item .layout-button:checked {
+  background-color: rgba(233, 104, 78, 0.12);
+}
+
+.indicator-menu-item .layout-button .snap-assist-tile {
+  border-color: rgba(205, 214, 244, 0.18);
+  background-color: rgba(205, 214, 244, 0.08);
+}
+
+.indicator-menu-item .layout-button:hover {
+  border-color: rgba(205, 214, 244, 0.25);
+}
+
+.indicator-menu-item .layout-button:hover .snap-assist-tile {
+  border-color: rgba(205, 214, 244, 0.35);
+  background-color: rgba(205, 214, 244, 0.16);
+}
+
+.indicator-menu-item .layout-button:checked {
+  border-color: rgba(233, 104, 78, 0.6);
+}
+
+.indicator-menu-item .layout-button:checked .snap-assist-tile {
+  border-color: #e9684e;
+  background-color: rgba(233, 104, 78, 0.35);
+}
+
+/* "Edit Layouts…" / "New Layout…": Tiling Shell borrows the notification
+ * list's Clear button class; give them the Mocha surface of our buttons. */
+.indicator-menu-item .buttons-box-layout .message-list-clear-button {
+  background-color: #313244;
+  color: #cdd6f4;
+}
+
+.indicator-menu-item .buttons-box-layout .message-list-clear-button:hover {
+  background-color: #3b3d52;
+}
+
+.indicator-menu-item .buttons-box-layout .message-list-clear-button:active {
+  background-color: #45475a;
+}

@@ -14,12 +14,12 @@
  */
 
 import Clutter from 'gi://Clutter';
+import GLib from 'gi://GLib';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 
 import * as Layout from 'resource:///org/gnome/shell/ui/layout.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import * as PointerWatcher from 'resource:///org/gnome/shell/ui/pointerWatcher.js';
 
 // Same push distance and window as the shell's own hot corner.
 const PRESSURE_THRESHOLD = 100;
@@ -119,8 +119,15 @@ export class FullscreenPeek {
             mode: Clutter.AnimationMode.EASE_OUT_QUAD,
         });
 
-        this._watch = PointerWatcher.getPointerWatcher().addWatch(
-            POINTER_INTERVAL, (_x, y) => this._onPointerMoved(y));
+        // Follow the pointer only while the bar is down. (GNOME 51 dropped
+        // the shell's PointerWatcher, so poll it ourselves.)
+        this._watchId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, POINTER_INTERVAL, () => {
+            const [, y] = global.get_pointer();
+            this._inWatch = true;
+            this._onPointerMoved(y);
+            this._inWatch = false;
+            return this._peeking ? GLib.SOURCE_CONTINUE : GLib.SOURCE_REMOVE;
+        });
     }
 
     _onPointerMoved(y) {
@@ -138,8 +145,10 @@ export class FullscreenPeek {
             return;
 
         this._peeking = false;
-        this._watch?.remove();
-        this._watch = null;
+        // From inside the timer the callback ends it by returning REMOVE.
+        if (this._watchId && !this._inWatch)
+            GLib.source_remove(this._watchId);
+        this._watchId = 0;
 
         const finish = () => {
             Main.panel.translation_y = 0;

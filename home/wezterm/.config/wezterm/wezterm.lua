@@ -53,10 +53,11 @@ config.window_padding = {
 -- Rounded Window Corners memasang sudut di luar area jendela (terlihat kotak).
 -- Lewat XWayland geometrinya benar; aman karena skala layar 1.0.
 config.enable_wayland = false
--- Tanpa titlebar. Di X11, "RESIZE" tetap meminta bingkai dan GNOME lalu
--- menggambar titlebar penuh; "NONE" benar-benar tanpa bingkai. Ukuran diatur
--- Forge, atau Super + klik tengah lalu geser untuk jendela mengambang.
-config.window_decorations = "NONE"
+-- Titlebar dari GNOME (traffic light dari tema GTK), seperti jendela lain:
+-- bisa digeser, dobel klik untuk maximize, dan di-snap dengan Super+panah.
+config.window_decorations = "TITLE | RESIZE"
+config.initial_cols = 120
+config.initial_rows = 32
 config.window_close_confirmation = 'NeverPrompt'
 
 -- 4. Tab Bar: tab aktif berupa pill ember, senada dengan island jam di top bar
@@ -98,7 +99,24 @@ config.default_cursor_style = 'BlinkingBar'
 config.cursor_blink_rate = 800
 config.scrollback_lines = 10000
 
--- 6. Keybindings Umum (Split Pane & Tab)
+-- 6. Bunyi bell: suara sendiri lewat PipeWire, bukan beep sistem GNOME.
+-- Program membunyikan bell saat selesai atau butuh perhatian (mis. Claude Code).
+-- Ganti file di bawah; pilihan lain di /usr/share/sounds/freedesktop/stereo/:
+-- bell, message, message-new-instant, dialog-information, window-attention.
+-- Dengarkan dulu dengan: pw-play <file>
+local bell_sound = '/usr/share/sounds/freedesktop/stereo/complete.oga'
+config.audible_bell = 'Disabled'
+local last_bell = 0
+wezterm.on('bell', function(_window, _pane)
+  local now = os.time()
+  if now - last_bell < 1 then
+    return -- satu bunyi untuk bell yang beruntun
+  end
+  last_bell = now
+  wezterm.background_child_process({ 'pw-play', bell_sound })
+end)
+
+-- 7. Keybindings Umum (Split Pane & Tab)
 config.keys = {
   -- Split Window
   { key = 'd', mods = 'CTRL|SHIFT', action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },

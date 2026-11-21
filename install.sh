@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install.sh — set up this rice on a Debian (sid/testing) + GNOME 50 machine.
+# install.sh — set up this rice on a Debian (sid/testing) + GNOME 50/51 machine.
 #
 #   ./install.sh                 run every step
 #   ./install.sh fonts icons     run only these steps
@@ -30,7 +30,7 @@ COLLOID=https://github.com/vinceliuice/Colloid-icon-theme/archive/ceac660.tar.gz
 APT_PACKAGES=(
   stow git curl ca-certificates gpg xz-utils unzip fontconfig python3
   zsh tmux kitty fastfetch lsd
-  dconf-cli gtk-update-icon-cache
+  dconf-cli gtk-update-icon-cache pipewire-bin
 )
 
 # ───── helpers ─────
@@ -228,8 +228,15 @@ EOF
       continue
     fi
     local url
+    # extensions.gnome.org answers with its newest release even when that
+    # release doesn't support this GNOME (Forge v89 on GNOME 51 crashed the
+    # shell), so only take it when its shell_version_map lists our version.
     url=$(curl -fsSL "https://extensions.gnome.org/extension-info/?uuid=$uuid&shell_version=$version" |
-      python3 -c 'import json, sys; print(json.load(sys.stdin)["download_url"])') ||
+      python3 -c 'import json, sys
+info = json.load(sys.stdin)
+if sys.argv[1] not in info.get("shell_version_map", {}):
+    sys.exit(1)
+print(info["download_url"])' "$version") ||
       { info "SKIPPED $uuid: no release for GNOME $version on extensions.gnome.org"; continue; }
     fetch "https://extensions.gnome.org$url" "$TMP/$uuid.zip"
     gnome-extensions install --force "$TMP/$uuid.zip"
@@ -240,18 +247,6 @@ EOF
 step_dconf() {
   bash "$DOTFILES/gnome/import.sh" >/dev/null
   info "imported GNOME settings"
-
-  # Forge rewrites its stylesheet with the stock one whenever css-last-update
-  # differs from the css tag of the installed Forge; match it so ours stays.
-  local forge="$DATA/gnome-shell/extensions/forge@jmmaranan.com/lib/shared/theme.js"
-  if [[ -f $forge ]]; then
-    local tag
-    tag=$(grep -oP 'this\.cssTag = \K[0-9]+' "$forge" || true)
-    if [[ -n $tag ]]; then
-      dconf write /org/gnome/shell/extensions/forge/css-last-update "uint32 $tag"
-      info "Forge css tag set to $tag"
-    fi
-  fi
 }
 
 # ───── main ─────

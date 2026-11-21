@@ -7,19 +7,31 @@
  * its height, so the work area (and every window) stays where it is.
  *
  * Forge tiles with a gap below the panel, so tiled windows keep the islands.
+ *
+ * Maximized windows are square (Rounded Window Corners leaves them so), and
+ * two small corner pieces in the bar colour sit on their top corners: the
+ * window reads as rounded at the top and tucked under the bar, like a zoomed
+ * macOS window, while its bottom stays flush with the screen edge. They only
+ * show while that window is the topmost one, so they never cover another.
  */
 
 import GLib from 'gi://GLib';
 import Meta from 'gi://Meta';
+import St from 'gi://St';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 const STYLE_CLASS = 'solid';
+// Window corner radius (libadwaita / Rounded Window Corners) and the bar
+// colour of #panel.solid in the shell theme (mantle, #181825).
+const CORNER_RADIUS = 15;
+const BAR_COLOR = [0x18 / 255, 0x18 / 255, 0x25 / 255];
 
 export class SolidBar {
     enable() {
         this._laterId = 0;
         this._panelGone = false;
+        this._corners = [this._makeCorner(false), this._makeCorner(true)];
 
         // On logout the shell tears the panel down without disabling
         // extensions first, while closing windows still queue updates; stop
@@ -73,8 +85,46 @@ export class SolidBar {
         global.display.disconnectObject(this);
         Main.overview.disconnectObject(this);
 
+        for (const corner of this._corners) {
+            Main.layoutManager.removeChrome(corner);
+            corner.destroy();
+        }
+        this._corners = null;
+
         if (!this._panelGone)
             Main.panel.remove_style_class_name(STYLE_CLASS);
+    }
+
+    // A square in the bar colour with a quarter circle cut out, so the
+    // window shows through as a rounded corner. It isn't reactive, so clicks
+    // go to the window underneath.
+    _makeCorner(right) {
+        const corner = new St.DrawingArea({
+            width: CORNER_RADIUS,
+            height: CORNER_RADIUS,
+            visible: false,
+        });
+        corner.connect('repaint', area => {
+            const cr = area.get_context();
+            const [width] = area.get_surface_size();
+            const r = CORNER_RADIUS;
+            cr.scale(width / r, width / r);
+            cr.setSourceRGB(...BAR_COLOR);
+            if (right) {
+                cr.moveTo(r, 0);
+                cr.lineTo(0, 0);
+                cr.arc(0, r, r, -Math.PI / 2, 0);
+            } else {
+                cr.moveTo(0, 0);
+                cr.lineTo(r, 0);
+                cr.arcNegative(r, r, r, -Math.PI / 2, -Math.PI);
+            }
+            cr.closePath();
+            cr.fill();
+            cr.$dispose();
+        });
+        Main.layoutManager.addChrome(corner);
+        return corner;
     }
 
     // The window's own state signals are the reliable ones: during the
@@ -126,6 +176,34 @@ export class SolidBar {
             Main.panel.add_style_class_name(STYLE_CLASS);
         else
             Main.panel.remove_style_class_name(STYLE_CLASS);
+
+        const rect = solid ? this._topmostMaximized()?.get_frame_rect() : null;
+        this._corners.forEach((corner, i) => {
+            if (!rect) {
+                corner.hide();
+                return;
+            }
+            corner.set_position(i ? rect.x + rect.width - CORNER_RADIUS : rect.x, rect.y);
+            corner.show();
+        });
+    }
+
+    // The maximized window, when it is the topmost window on the primary
+    // monitor's active workspace (nothing else could be under the corners).
+    _topmostMaximized() {
+        const monitor = Main.layoutManager.primaryMonitor;
+        if (!monitor)
+            return null;
+
+        const workspace = global.workspace_manager.get_active_workspace();
+        const windows = global.display.sort_windows_by_stacking(
+            workspace.list_windows().filter(win =>
+                win.get_monitor() === monitor.index &&
+                !win.minimized &&
+                win.showing_on_its_workspace()));
+        const top = windows.at(-1);
+        return top && top.maximizedVertically && top.maximizedHorizontally &&
+            !top.fullscreen ? top : null;
     }
 
     _windowReachesPanel() {

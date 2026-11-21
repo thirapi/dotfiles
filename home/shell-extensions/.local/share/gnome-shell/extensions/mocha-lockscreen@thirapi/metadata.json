@@ -6,7 +6,8 @@
     "unlock-dialog"
   ],
   "shell-version": [
-    "50"
+    "50",
+    "51"
   ],
   "url": "https://github.com/thirapi/dotfiles"
 }

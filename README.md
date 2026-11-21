@@ -1,11 +1,11 @@
-# dotfiles — Debian sid + GNOME 50 (Wayland)
+# dotfiles — Debian sid + GNOME 51 (Wayland)
 
 Catppuccin Mocha with an ember accent (`#e9684e`, sampled from the wallpaper),
-an island top bar with a small dynamic island, and Forge tiling.
+an island top bar with a small dynamic island, and Tiling Shell tiling.
 
 ## Install
 
-On a Debian (sid/testing) machine with GNOME 50:
+On a Debian (sid/testing) machine with GNOME 50 or 51:
 
 ```sh
 sudo apt install git gh && gh auth login   # the repo is private
@@ -31,7 +31,7 @@ with `--list`.
 | icons      | Colloid Orange Catppuccin, then `scripts/build-icon-overrides.py` |
 | stow       | links every package in `home/` into `$HOME` |
 | extensions | the enabled extensions from `gnome/dconf/shell.ini`, from extensions.gnome.org |
-| dconf      | `gnome/import.sh`, and Forge's css tag so Forge keeps our stylesheet |
+| dconf      | `gnome/import.sh` (includes Tiling Shell's gaps and keybindings) |
 
 ## Layout
 
@@ -53,8 +53,7 @@ scripts/            build-icon-overrides.py
 | fastfetch        | `.config/fastfetch`, `.config/ascii-art` |
 | gtk              | `.config/gtk-{3,4}.0`: shared Mocha palette in `colors.css`, traffic-light window buttons |
 | shell-theme      | `.local/share/themes/Mocha-Mac` (GNOME Shell theme) |
-| shell-extensions | `mac-top-bar@thirapi` (fullscreen peek, solid bar when maximized, dynamic island) and `mocha-lockscreen@thirapi` (theme on the lock screen) |
-| forge            | `.config/forge`: float rules and Mocha stylesheet |
+| shell-extensions | `mac-top-bar@thirapi` (fullscreen peek, solid bar when maximized, dynamic island, new windows open filling the screen without being maximized) and `mocha-lockscreen@thirapi` (theme on the lock screen) |
 | icons            | `.local/share/icons/Mocha-Icons` (see below) |
 | wallpapers       | `.local/share/backgrounds`, including the current one |
 
@@ -67,10 +66,9 @@ scripts/            build-icon-overrides.py
 
 ## Things worth knowing
 
-- **Forge stylesheet:** keep `home/forge/.config/forge/stylesheet/forge/stylesheet.css`
-  free of `/* */` comments; Forge parses it itself and crashes on them. A Forge
-  update with a new css tag overwrites it (keeping a `.bak`); restore from git
-  and rerun `./install.sh dconf`.
+- **Tiling:** Tiling Shell (Forge v89 crashes GNOME 51). Its gaps match the
+  6px grid; focus is Super+Alt+H/J/K/L because Super+L locks and Super+H
+  minimizes.
 - **Mocha-Icons** layers Adwaita's symbolic icons (they match the shell's
   weight) and GNOME's own art for apps Colloid draws as Apple look-alikes over
   Colloid Orange Catppuccin Dark.
